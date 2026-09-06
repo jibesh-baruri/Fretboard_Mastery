@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign Up for Fretboard Mastery - Start your music journey today.">
+    <title>Sign Up | Fretboard Mastery</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-body: #f8f9fa;
+            --bg-white: #ffffff;
+            --bg-card: #ffffff;
+            --text-main: #333333;
+            --text-light: #666666;
+            --primary: #212529;
+            --primary-hover: #ffffff;
+            --accent: #495057;
+            --border: #e9ecef;
+            --container-width: 1500px;
+            --radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.2s ease-in-out;
+            --error-color: #dc3545;
+            --success-color: #28a745;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+            --bg-body: #121212;
+            --bg-card: #1e1e1e;
+            --text-main: #f8f9fa;
+            --text-muted: #8a8a8a;
+            --primary: #121212;
+            --primary-hover: #ffffff;
+            --border: #343a40;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --meter-bg: #343a40;
+            }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.page-scale {
+  transform: scale(1.25);
+  transform-origin: top left;
+  width: 80%;
+}
+   @media (max-width: 768px) {
+  .course-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: var(--primary-hover);
+            border-radius: var(--radius);
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid var(--primary);
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: var(--text-main);
+            color: var(--bg-body);
+            transform: translateY(-1px);
+        }
+        .btn:disabled {
+            background-color: var(--bg-card);
+            border-color: var(--bg-border);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        header {
+            background-color: var(--bg-card);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+        header {
+        transition: transform 0.35s ease-in-out;
+        } 
+
+        header.hide {
+        transform: translateY(-100%);
+        }
+        .brand { display: flex; align-items: center; gap: 5px; }
+        .brand img { height: 20px; width: 15px; }
+        .brand-name { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; color: var(--text-main); }
+        
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-weight: 500; color: var(--text-main); position: relative; }
+        .nav-links a:hover { color: var(--text-main); font-weight: 700; }
+        
+        .hamburger { display: none; cursor: pointer; font-size: 1.5rem; }
+
+        .hamburger i {
+  transition: transform 0.35s ease, opacity 0.2s ease;
+  display: inline-block;
+}
+
+.hamburger.active i {
+  transform: rotate(90deg);
+}
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 0;
+            background-color: var(--bg-body);
+        }
+
+        .auth-wrapper {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .intro-text {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .intro-text h1 { font-size: 2.2rem; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .intro-text p { color: var(--text-light); }
+
+        .auth-card {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.5s ease-out;
+        }
+        .form-group { margin-bottom: 20px; position: relative; }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main); font-size: 0.9rem; }
+        
+        .input-wrapper { position: relative; }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            padding-right: 40px; 
+            background-color: var(--bg-body);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            color: var(--text-main);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(33, 37, 41, 0.1);
+        }
+        .form-control.error { border-color: var(--error-color); }
+        
+        .error-msg {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+        }
+        .form-group.invalid .error-msg { display: block; }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .toggle-password:hover { color: var(--primary); }
+
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear {
+          display: none;
+        }
+
+        input[type="password"]::-webkit-credentials-auto-fill-button {
+          display: none !important;
+        }
+
+        input[type="password"] {
+          appearance: none;
+        }
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+          -webkit-box-shadow: 0 0 0 1000px var(--bg-body) inset !important;
+          box-shadow: 0 0 0 1000px var(--bg-body) inset !important;
+          -webkit-text-fill-color: var(--text-main) !important;
+          transition: background-color 5000s ease-in-out 0s;
+        }
+
+        input:-webkit-autofill {
+          border: 1px solid var(--border) !important;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        .auth-footer p { color: var(--text-light); font-size: 0.95rem; margin-bottom: 5px; }
+        .auth-link { color: var(--text-main); font-weight: 600; text-decoration: underline; }
+        .alert {
+            padding: 12px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: none;
+            text-align: center;
+        }
+        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 40px 0 20px;
+            margin-top: auto;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .footer-bottom {
+            margin-top: 30px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            width: 100%;
+            padding-top: 15px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .navbar { position: relative; }
+            .hamburger { display: block; }
+            @media (max-width: 768px) {
+  .nav-links {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+
+    background-color: var(--bg-card);
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+
+    /* animation setup */
+    transform: translateY(-120%);
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+      transform 0.35s ease,
+      opacity 0.25s ease;
+  }
+
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-toggle {
+    display: block;
+  }
+}
+   
+            .auth-card { padding: 30px 20px; }
+            .intro-text h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container navbar">
+            <div class="brand">
+                <img id="logoImg" src="logo.png" alt="Fretboard Mastery Logo"> <span class="brand-name">Fretboard Mastery</span>
+            </div>
+
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="auth-wrapper">
+                
+                <div class="intro-text">
+                    <h1>Create Your Account</h1>
+                    <p>Start learning music the right way.</p>
+                </div>
+
+                <div class="auth-card">
+                    <div id="globalMsg" class="alert"></div>
+
+                    <form id="signupForm" novalidate>
+                        
+                        <div class="form-group">
+                            <label for="fullname" class="form-label">Full Name</label>
+                            <input type="text" id="fullname" class="form-control" placeholder="Example - Tapan Das" required>
+                            <span class="error-msg">Please enter your full name.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="Example - tapan@gmail.com" required>
+                            <span class="error-msg">Please enter a valid email address.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-wrapper">
+                                <input type="password" id="password" class="form-control" placeholder="Min. 6 characters" required>
+                                <i class="fas fa-eye toggle-password" data-target="password"></i>
+                            </div>
+                            <span class="error-msg">Password must be at least 6 characters.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <div class="input-wrapper">
+                                <input type="password" id="confirmPassword" class="form-control" placeholder="Re-enter password" required>
+                                <i class="fas fa-eye toggle-password" data-target="confirmPassword"></i>
+                            </div>
+                            <span class="error-msg">Passwords do not match.</span>
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="btn">
+                            <span class="btn-text">Create Account</span>
+                            <i class="fas fa-spinner fa-spin" style="display: none; margin-left: 8px;"></i>
+                        </button>
+                    </form>
+
+                    <div class="auth-footer">
+                        <p>Already have an account? <a href="login.html" class="auth-link">Log In</a></p>
+                        <p style="margin-top: 15px; font-size: 0.85rem; color: #888;">
+                            Start learning today for just <strong>₹9/month</strong>.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="brand-name" style="font-size: 1.2rem;">Fretboard Mastery</div>
+                <div class="footer-bottom">
+                    <p>&copy; 2023 Fretboard Mastery. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  const firebaseConfig = {
+  apiKey: "AIzaSyADamV7cnVJtmEhzKcJOTfLvHXI49hNdso",
+  authDomain: "fretboard-mastery.firebaseapp.com",
+  projectId: "fretboard-mastery",
+  storageBucket: "fretboard-mastery.firebasestorage.app",
+  messagingSenderId: "102524815260",
+  appId: "1:102524815260:web:23ec49b3437ad232746a59"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window.firebaseAuth = auth;
+  window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+  window.updateProfile = updateProfile;
+</script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('navLinks');
+
+            hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+  hamburger.classList.toggle('active');
+
+  const icon = hamburger.querySelector('i');
+  if (navLinks.classList.contains('active')) {
+    icon.classList.remove('fa-bars');
+    icon.classList.add('fa-times');
+  } else {
+    icon.classList.remove('fa-times');
+    icon.classList.add('fa-bars');
+  }
+});
+
+
+            const toggles = document.querySelectorAll('.toggle-password');
+            
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', function () {
+                    const targetId = this.getAttribute('data-target');
+                    const input = document.getElementById(targetId);
+                    
+                    const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                    input.setAttribute('type', type);
+                    
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                });
+            });
+
+            const form = document.getElementById('signupForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnSpinner = submitBtn.querySelector('.fa-spin');
+            const globalMsg = document.getElementById('globalMsg');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                globalMsg.style.display = 'none';
+                globalMsg.className = 'alert'; 
+                let isValid = true;
+
+                const nameInput = document.getElementById('fullname');
+                const emailInput = document.getElementById('email');
+                const passInput = document.getElementById('password');
+                const confirmInput = document.getElementById('confirmPassword');
+
+                const showError = (input, show) => {
+                    const group = input.closest('.form-group');
+                    if(show) {
+                        group.classList.add('invalid');
+                        input.classList.add('error');
+                    } else {
+                        group.classList.remove('invalid');
+                        input.classList.remove('error');
+                    }
+                };
+
+                if (nameInput.value.trim() === '') {
+                    showError(nameInput, true);
+                    isValid = false;
+                } else {
+                    showError(nameInput, false);
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(emailInput.value.trim())) {
+                    showError(emailInput, true);
+                    isValid = false;
+                } else {
+                    showError(emailInput, false);
+                }
+
+                if (passInput.value.length < 6) {
+                    showError(passInput, true);
+                    isValid = false;
+                } else {
+                    showError(passInput, false);
+                }
+
+                if (confirmInput.value !== passInput.value || confirmInput.value === '') {
+                    showError(confirmInput, true);
+                    isValid = false;
+                } else {
+                    showError(confirmInput, false);
+                }
+
+                if (isValid) {
+                    startLoading();
+
+                    try {
+                       const auth = window.firebaseAuth;
+
+const userCredential = await window.createUserWithEmailAndPassword(
+    auth,
+    emailInput.value,
+    passInput.value
+);
+
+await window.updateProfile(userCredential.user, {
+    displayName: nameInput.value
+});
+
+                        
+                        showGlobalMessage('Account created successfully! Redirecting...', 'success');
+                        form.reset();
+                        setTimeout(() => {
+                           window.location.href = 'login.html';
+                        }, 1500);
+
+                    } catch (error) {
+                        showGlobalMessage(error.message || 'An error occurred. Please try again.', 'error');
+                        stopLoading();
+                    }
+                }
+            });
+
+            function startLoading() {
+                submitBtn.disabled = true;
+                btnText.textContent = "Creating Account...";
+                btnSpinner.style.display = 'inline-block';
+            }
+
+            function stopLoading() {
+                submitBtn.disabled = false;
+                btnText.textContent = "Create Account";
+                btnSpinner.style.display = 'none';
+            }
+
+            function showGlobalMessage(msg, type) {
+                globalMsg.textContent = msg;
+                globalMsg.classList.add(type === 'success' ? 'alert-success' : 'alert-error');
+                globalMsg.style.display = 'block';
+                if(type === 'error') stopLoading();
+            }
+        });
+    </script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const header = document.querySelector('header');
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+
+    if (scrollY > 80) {
+      header.classList.add('hide');
+    } 
+    else {
+      header.classList.remove('hide');
+    }
+  });
+});
+</script>
+<script>
+function updateLogo() {
+  const logo = document.getElementById("logoImg");
+  const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  if (isDark) {
+    logo.src = "logoW.png";
+  } else {
+    logo.src = "logo.png";
+  }
+}
+updateLogo();
+window.matchMedia("(prefers-color-scheme: dark)")
+  .addEventListener("change", updateLogo);
+</script>
+</body>
+</html>

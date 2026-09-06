@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact Fretboard Mastery - Get in touch with us for support or inquiries.">
+    <title>Contact Us | Fretboard Mastery</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+   </script>
+   <script type="text/javascript">
+           (function(){
+           emailjs.init({
+           publicKey: "J8qy6496n2jtB025n",
+    });
+    })();
+</script>
+<script src="script.js"></script>
+    <style>
+        :root {
+            --bg-body: #f8f9fa;
+            --bg-white: #ffffff;
+            --text-main: #333333;
+            --text-light: #666666;
+            --primary: #212529;
+            --accent: #495057;
+            --border: #e9ecef;
+            --container-width: 1500px;
+            --radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+            --error-color: #dc3545;
+            --success-color: #28a745;
+        }
+
+        @media (prefers-color-scheme: dark) {
+  :root {
+    --bg-body: #121212;
+    --bg-white: #1e1e1e;
+    --text-main: #f1f3f5;
+    --text-light: #adb5bd;
+    --primary: #f8f9fa;
+    --accent: #ced4da;
+    --border: #2a2a2a;
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  }
+}
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+         body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.page-scale {
+  transform: scale(1.25);
+  transform-origin: top left;
+  width: 80%;
+}
+           @media (max-width: 768px) {
+  .course-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #121212;
+            color: #f1f3f5;
+            border-radius: var(--radius);
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid #121212;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn:hover {
+            background-color: var(--primary);
+            color: var(--bg-white);
+            transform: translateY(-2px);
+        }
+        .btn:disabled {
+            background-color: var(--bg-body);
+            border-color: var(--border);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        header {
+            background-color: var(--bg-white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        header {
+  transition: transform 0.35s ease-in-out;
+}
+
+header.hide {
+  transform: translateY(-100%);
+}
+
+        .brand { display: flex; align-items: center; gap: 5px; }
+        .brand img { height: 20px; width: 15px; }
+        .brand-name { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; color: var(--text-main); }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-weight: 500; color: var(--text-main); position: relative; }
+        .nav-links a:hover { color: var(--text-main); font-weight: 700; }
+
+        .hamburger { display: none; cursor: pointer; font-size: 1.5rem; }
+
+        .contact-hero {
+            background: var(--bg-body);
+            color: var(--accent);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .contact-hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .contact-hero p { font-size: 1.2rem; color: var(--accent); max-width: 600px; margin: 0 auto; }
+
+        .contact-section { padding: 80px 0; }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 60px;
+        }
+
+        .contact-form-card {
+            background: var(--bg-white);
+            padding: 40px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+        .form-group { margin-bottom: 20px; position: relative;}
+        .form-label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main); font-size: 0.95rem; }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--border);
+            box-shadow: 0 0 0 3px rgba(33, 37, 41, 0.1);
+        }
+        .form-control.error { border-color: var(--error-color); }
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+        .form-group.invalid .error-message { display: block; }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid #c3e6cb;
+        }
+
+        .info-sidebar { display: flex; flex-direction: column; gap: 40px; }
+        
+        .info-card {
+            background: var(--bg-white);
+            padding: 30px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        .info-card h3 { font-size: 1.25rem; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        
+        .contact-list li { margin-bottom: 15px; display: flex; align-items: flex-start; gap: 15px; color: var(--text-light); }
+        .contact-list i { color: var(--primary); font-size: 1.1rem; margin-top: 4px; }
+        
+        .faq-item { margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        .faq-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .faq-question { font-weight: 600; color: var(--text-main); display: block; margin-bottom: 5px; cursor: pointer; }
+        .faq-answer { font-size: 0.9rem; color: var(--text-light); display: none; margin-top: 5px; }
+        .faq-item.active .faq-answer { display: block; }
+        .faq-item.active .faq-question { color: var(--primary); }
+
+        .cta-section {
+            padding: 80px 0;
+            text-align: center;
+            background: var(--bg-white);
+            border-top: 1px solid var(--border);
+        }
+
+        footer {
+            background-color: var(--bg-white);
+            border-top: 1px solid var(--border);
+            padding: 50px 0 20px;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-col h4 { margin-bottom: 20px; font-size: 1.1rem; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { color: var(--text-light); transition: var(--transition); }
+        .footer-col ul li a:hover { color: var(--primary); text-decoration: underline; }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .social-icons { display: flex; gap: 15px; }
+        .social-icons a { color: var(--text-main); font-size: 1.2rem; transition: var(--transition); }
+        .social-icons a:hover { color: #000; }
+
+        @media (max-width: 992px) {
+            .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+            .info-sidebar { flex-direction: row; flex-wrap: wrap; }
+            .info-card { flex: 1; min-width: 300px; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { position: relative; }
+            .hamburger { display: block; }
+.hamburger i {
+  transition: transform 0.35s ease, opacity 0.25s ease;
+}
+
+.hamburger.active i {
+  transform: rotate(90deg);
+}
+
+            .nav-links {
+                position: absolute; top: 80px; left: 0; right: 0;
+                background-color: var(--bg-white);
+                flex-direction: column; align-items: center;
+                padding: 20px 0; gap: 20px;
+                border-bottom: 1px solid var(--border);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 999;
+            }
+            .nav-links.active { transform: translateY(0); box-shadow: 0 10px 10px rgba(0,0,0,0.1); }
+            
+            .contact-hero h1 { font-size: 2.2rem; }
+            .info-sidebar { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container navbar">
+            <div class="brand">
+                <img id="logoImg" src="logo.png" alt="Fretboard Mastery Logo"> <span class="brand-name">Fretboard Mastery</span>
+            </div>
+
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="#help">Quick Help</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="contact-hero">
+            <div class="container">
+                <h1>Let’s Stay in Touch</h1>
+                <p>Have a question about the course or need technical support? We’re here to help.</p>
+            </div>
+        </section>
+
+        <section class="contact-section" id="contact">
+            <div class="container contact-grid">
+                
+                <div class="contact-form-container">
+                    <div id="successMessage" class="alert-success">
+                        <strong><i class="fas fa-check-circle"></i> Message Sent!</strong> We'll get back to you within 24 hours.
+                    </div>
+
+                    <form id="contactForm" class="contact-form-card fade-in">
+                        <h2 style="margin-bottom: 25px; color: var(--primary);">Send a Message</h2>
+                        
+                        <div class="form-group">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" id="name" class="form-control" placeholder="Example - Tapan Das">
+                            <span class="error-message">Please enter your name.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="Example - tapan@gmail.com">
+                            <span class="error-message">Please enter a valid email address.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="form-label">Subject</label>
+                            <select id="subject" class="form-control">
+                                <option value="">Select a topic...</option>
+                                <option value="support">Technical Support</option>
+                                <option value="course">Course Inquiry</option>
+                                <option value="billing">Billing Question</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <span class="error-message">Please select a subject.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea id="message" class="form-control" rows="5" placeholder="How can we help you today?"></textarea>
+                            <span class="error-message">Please enter your message (min 10 characters).</span>
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="btn" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+
+                <aside class="info-sidebar">
+                    
+                    <div class="info-card fade-in">
+                        <h3>Contact Information</h3>
+                        <ul class="contact-list">
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <strong>Email Us</strong><br>
+                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=masteryfretboard@gmail.com">masteryfretboard@gmail.com</a>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <strong>Response Time</strong><br>
+                                    Mon - Fri, 9am - 6pm<br>
+                                    <span style="font-size:0.85rem; color:#888;">Usually replies within 24hrs</span>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <strong>Location</strong><br>
+                                    Kolkata, West Bengal, India
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card fade-in" id="help">
+                        <h3>Quick Help</h3>
+                        
+                        <div class="faq-item">
+                            <span class="faq-question">How do I access the lessons? <i class="fas fa-chevron-down" style="float:right; font-size:0.8rem;"></i></span>
+                            <p class="faq-answer">Once you subscribe, log in to your dashboard. All courses will be unlocked.</p>
+                        </div>
+
+                        <div class="faq-item">
+                            <span class="faq-question">Can I cancel anytime? <i class="fas fa-chevron-down" style="float:right; font-size:0.8rem;"></i></span>
+                            <p class="faq-answer">Yes! There are no lock-in contracts. You can cancel your ₹9 subscription from your account settings at any time.</p>
+                        </div>
+
+                        <div class="faq-item">
+                            <span class="faq-question">Do you offer 1-on-1 classes? <i class="fas fa-chevron-down" style="float:right; font-size:0.8rem;"></i></span>
+                            <p class="faq-answer">Currently, we focus on pre-recorded structured content to keep costs low, but we do host monthly live Q&A sessions.</p>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="section-title">Ready to Learn?</h2>
+                <p style="margin-bottom: 30px; color: var(--text-light); font-size: 1.1rem;">
+                    "Pay less, learn more." Join the community today.
+                </p>
+                <a href="login.html" class="btn">Start Your Journey</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Fretboard Mastery</h4>
+                    <p style="color:var(--text-light); font-size:0.9rem;">
+                        Empowering guitarists of Bengal with quality education and a supportive community.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4>Learn</h4>
+                    <ul>
+                        <li><a href="index.html">All Courses</a></li>
+                        <li><a href="index.html">Beginner's Guide</a></li>
+                        <li><a href="index.html">Theory</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="about.html">About Us
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Fretboard Mastery. All rights reserved.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("navLinks");
+    const navItems = navLinks.querySelectorAll("a");
+
+    hamburger.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+    hamburger.classList.toggle("active");
+
+    const icon = hamburger.querySelector("i");
+
+    if (navLinks.classList.contains("active")) {
+        icon.classList.remove("fa-bars");
+        icon.classList.add("fa-times");
+    } else {
+        icon.classList.remove("fa-times");
+        icon.classList.add("fa-bars");
+    }
+});
+
+    navItems.forEach(item => {
+    item.addEventListener("click", () => {
+        if (navLinks.classList.contains("active")) {
+            navLinks.classList.remove("active");
+            hamburger.classList.remove("active");
+
+            const icon = hamburger.querySelector("i");
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+        }
+    });
+});
+
+navItems.forEach(item => {
+    item.addEventListener("click", function (e) {
+        const targetId = this.getAttribute("href");
+
+        if (targetId.startsWith("#")) {
+            e.preventDefault();
+
+            const target = document.querySelector(targetId);
+
+            if (target) {
+                const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+                const offset = window.innerHeight / 2 - target.offsetHeight / 2;
+
+                window.scrollTo({
+                    top: elementPosition - offset,
+                    behavior: "smooth"
+                });
+            }
+
+            navLinks.classList.remove("active");
+            hamburger.classList.remove("active");
+
+            const icon = hamburger.querySelector("i");
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+        }
+    });
+});
+    const faqItems = document.querySelectorAll(".faq-item");
+
+    faqItems.forEach(item => {
+        const question = item.querySelector(".faq-question");
+        question.addEventListener("click", () => {
+            faqItems.forEach(other => {
+                if (other !== item) other.classList.remove("active");
+            });
+            item.classList.toggle("active");
+        });
+    });
+
+    const form = document.getElementById("contactForm");
+    const successMsg = document.getElementById("successMessage");
+    const submitBtn = document.getElementById("submitBtn");
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        let isValid = true;
+
+        const validateField = (id, rule) => {
+            const field = document.getElementById(id);
+            const group = field.closest(".form-group");
+
+            if (!rule(field.value.trim())) {
+                group.classList.add("invalid");
+                field.classList.add("error");
+                isValid = false;
+            } else {
+                group.classList.remove("invalid");
+                field.classList.remove("error");
+            }
+        };
+
+        validateField("name", v => v.length > 0);
+        validateField("email", v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
+        validateField("subject", v => v !== "");
+        validateField("message", v => v.length >= 10);
+
+        if (!isValid) return;
+
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Sending...";
+
+        sendMail();
+    });
+});
+
+function sendMail() {
+    const successMsg = document.getElementById("successMessage");
+    const submitBtn = document.getElementById("submitBtn");
+
+    const params = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        subject: document.getElementById("subject").value,
+        message: document.getElementById("message").value,
+    };
+
+    emailjs
+        .send("service_4tv4pap", "template_hokoy5h", params)
+        .then(() => {
+            successMsg.style.display = "block";
+            document.getElementById("contactForm").reset();
+
+            requestAnimationFrame(() => {
+                successMsg.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            });
+
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Send Message";
+
+            setTimeout(() => {
+                successMsg.style.display = "none";
+            }, 5000);
+        })
+        .catch((error) => {
+            console.error("EmailJS Error:", error);
+            alert("Failed to send message. Please try again.");
+
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Send Message";
+        });
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const header = document.querySelector('header');
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+
+    if (scrollY > 80) {
+      header.classList.add('hide');
+    } 
+    else {
+      header.classList.remove('hide');
+    }
+  });
+});
+    </script>
+<script>
+function updateLogo() {
+  const logo = document.getElementById("logoImg");
+  const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  if (isDark) {
+    logo.src = "logoW.png";
+  } else {
+    logo.src = "logo.png";
+  }
+}
+updateLogo();
+window.matchMedia("(prefers-color-scheme: dark)")
+  .addEventListener("change", updateLogo);
+</script>
+</body>
+</html>

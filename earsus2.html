@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ear Trainer | Fretboard Mastery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0c0c17;
+            --board-light: #dcd3c9;
+            --board-dark: #735645;
+            --accent-success: #76c766;
+            --accent-fail: #d94e41;
+            --ui-bg: #1f1e2c;
+            --text-color: #e6d8b5;
+        }
+
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background:none;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            min-height: 100vh;
+            user-select: none;
+            overflow: hidden;
+            position: relative;
+        }  
+        h1 {
+            font-size: 1rem;
+            text-shadow: 3px 3px 0px #000;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .canvas-wrapper{
+
+    position:fixed;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%, 38px);
+}
+
+        #status-msg{
+
+    position:absolute;
+    left:50%;
+    bottom:460px;
+
+    transform:translateX(-50%);
+
+    width:420px;
+
+    text-align:center; 
+
+    text-shadow:
+    2px 2px 0 #000,
+    3px 3px 0 rgba(0,0,0,.4);
+
+}
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+#options-grid{
+
+    position:absolute;
+
+    left:70px;
+    top:-180px;
+    transform:translateX(-110px);
+
+    display:flex;
+    flex-direction:column;
+
+    gap:12px;
+
+    width:110px;
+
+    z-index:999;
+}
+
+#options-grid button{
+
+    width:110px;
+    height:34px;
+
+    font-size:.6rem;
+
+    padding:0;
+
+    transition:.15s;
+}
+
+#options-grid button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+        button {
+            font-family: 'Press Start 2P', monospace;
+            padding: 12px;
+            font-size: 0.6rem;
+            cursor: pointer;
+            border: 4px solid rgba(255,255,255,0.1);
+            background: var(--ui-bg);
+            color: var(--text-color);
+            box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+            transition: transform 0.1s;
+        }
+
+        button:active { transform: translateY(4px); box-shadow: none; }
+        button.play-btn { background: #aa6d1c; color: #fff; width: 100%; }
+        button.correct { background: var(--accent-success); color: #fff; border-color: #fff; }
+        button.wrong { background: var(--accent-fail); color: #fff; border-color: #fff;}
+
+        .hidden { display: none !important; }
+
+        #setup-screen {
+            position: absolute; top:0; left:0; width:100%; height:100%;
+            background: #0c0c17;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            z-index: 100;
+            padding: 0px;
+        }
+        #chord-list button {
+        font-size: 0.62rem;
+        padding: 12px 10px;
+        text-align: center;
+        }
+
+        #chord-list button.selected {
+            background-color: #76c766;
+            color: #1a1a1a;
+        }
+
+        #background{
+    position: fixed;
+    inset: 0;
+
+    background: black;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 470px 995px;
+    image-rendering: pixelated;
+}
+
+#replay-btn{
+
+    position: absolute;
+
+    width:160px;
+    height:28px;
+    margin-left:87px;
+    margin-top:-530px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+
+    background:#515759;
+    color:#fff8e7;
+
+    border:4px solid #6C7472;
+
+    font-size:.66rem;
+
+    white-space:nowrap;
+
+    transition:.15s;
+}
+
+#replay-btn:hover{
+
+    background:#646b6d;
+}
+
+#replay-btn:active{
+
+    background:#3f4344;
+
+}
+
+#scene{
+    position: fixed;
+    inset: 0;
+}
+        
+    </style>
+</head>
+<body>
+
+    <div id="background"></div>
+
+    <h1>Chord Chess<br><span style="font-size: 0.7em; color:#e69d38;">Capture The King</span></h1>
+
+    <div id="game-container">
+        <div class="canvas-wrapper">
+
+    <canvas id="gameCanvas" width="240" height="480"></canvas>
+
+    <div id="status-msg">Waiting...</div>
+
+<button id="replay-btn" class="play-btn">
+    <i class="fa-solid fa-volume-high"></i>
+    Replay Sound
+</button>
+
+    <div id="options-grid"></div>
+
+</div>
+
+        <div id="game-ui" class="controls hidden" style="display:none !important;"></div>
+    </div>
+
+    <div id="setup-screen">
+        <h2 style="font-size: 0.8rem; margin-bottom: 20px;">Select Active Chords</h2>
+        <div id="chord-list"
+        style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; width: 100%; max-width: 260px;">
+        </div>    
+        <p id="setup-error" style="height: 10px; margin-bottom: 10px; font-size: 0.5rem; color: #ff6b6b; display: none;">
+           Select at least 4 chords
+        </p>
+
+        <button id="start-btn" style="background: #aa6d1c; font-size: 0.7rem; padding: 15px 30px;">Start Game</button>
+    </div>
+
+<script>
+class MiniChessEngine {
+    constructor() {
+        this.rows = 4;
+        this.cols = 4;
+        this.reset();
+    }
+    reset() {
+        this.board = [
+            [{c:'b', t:'r'}, {c:'b', t:'n'}, {c:'b', t:'b'}, {c:'b', t:'k'}],
+            [{c:'b', t:'p'}, {c:'b', t:'p'}, {c:'b', t:'p'}, {c:'b', t:'p'}],
+            [{c:'w', t:'p'}, {c:'w', t:'p'}, {c:'w', t:'p'}, {c:'w', t:'p'}],
+            [{c:'w', t:'r'}, {c:'w', t:'n'}, {c:'w', t:'b'}, {c:'w', t:'k'}]
+        ];
+        this.turn = 'w';
+        this.gameOver = false;
+        this.winner = null;
+        this.lastMove = null;
+    }
+
+    isValidPos(r, c) { return r >= 0 && r < this.rows && c >= 0 && c < this.cols; }
+
+    getLegalMoves(color) {
+        let moves = [];
+        for (let r = 0; r < this.rows; r++) {
+            for (let c = 0; c < this.cols; c++) {
+                const p = this.board[r][c];
+                if (p && p.c === color) {
+                    moves = moves.concat(this.getPieceMoves(r, c, p.t, color));
+                }
+            }
+        }
+        return moves;
+    }
+
+    getPieceMoves(r, c, type, color) {
+        let moves = [];
+        const directions = {
+            'r': [[0,1], [0,-1], [1,0], [-1,0]], 
+            'b': [[1,1], [1,-1], [-1,1], [-1,-1]], 
+            'q': [[0,1], [0,-1], [1,0], [-1,0], [1,1], [1,-1], [-1,1], [-1,-1]],
+            'k': [[0,1], [0,-1], [1,0], [-1,0], [1,1], [1,-1], [-1,1], [-1,-1]],
+            'n': [[1,2],[1,-2],[-1,2],[-1,-2],[2,1],[2,-1],[-2,1],[-2,-1]]
+        };
+        if (type === 'p') {
+            const forward = color === 'w' ? -1 : 1;
+            if (this.isValidPos(r + forward, c) && this.board[r + forward][c] === null) {
+                moves.push({ from: {r, c}, to: {r: r + forward, c: c} });
+            }
+            const attacks = [[forward, -1], [forward, 1]];
+            attacks.forEach(([dr, dc]) => {
+                const nr = r + dr, nc = c + dc;
+                if (this.isValidPos(nr, nc)) {
+                    const target = this.board[nr][nc];
+                    if (target && target.c !== color) {
+                        moves.push({ from: {r, c}, to: {r: nr, c: nc} });
+                    }
+                }
+            });
+            return moves;
+        }
+        if (type === 'k' || type === 'n') {
+            const dirs = directions[type];
+            dirs.forEach(([dr, dc]) => {
+                const nr = r + dr, nc = c + dc;
+                if (this.isValidPos(nr, nc)) {
+                    const target = this.board[nr][nc];
+                    if (!target || target.c !== color) {
+                        moves.push({ from: {r, c}, to: {r: nr, c: nc} });
+                    }
+                }
+            });
+            return moves;
+        }
+        const dirs = directions[type];
+        dirs.forEach(([dr, dc]) => {
+            let nr = r + dr, nc = c + dc;
+            while (this.isValidPos(nr, nc)) {
+                const target = this.board[nr][nc];
+                if (!target) {
+                    moves.push({ from: {r, c}, to: {r: nr, c: nc} });
+                } else {
+                    if (target.c !== color) {
+                        moves.push({ from: {r, c}, to: {r: nr, c: nc} });
+                    }
+                    break;
+                }
+                nr += dr; nc += dc;
+            }
+        });
+
+        return moves;
+    }
+
+    move(moveObj) {
+        if (this.gameOver) return;
+
+        const p = this.board[moveObj.from.r][moveObj.from.c];
+        const target = this.board[moveObj.to.r][moveObj.to.c];
+        this.board[moveObj.to.r][moveObj.to.c] = p;
+        this.board[moveObj.from.r][moveObj.from.c] = null;
+        this.lastMove = moveObj;
+        if (p.t === 'p') {
+            if ((p.c === 'w' && moveObj.to.r === 0) || (p.c === 'b' && moveObj.to.r === this.rows - 1)) {
+                p.t = 'q';
+            }
+        }
+        if (target && target.t === 'k') {
+            this.gameOver = true;
+            this.winner = p.c;
+        }
+
+        this.turn = this.turn === 'w' ? 'b' : 'w';
+    }
+}
+class Renderer {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        this.ctx = this.canvas.getContext('2d');
+        this.ctx.imageSmoothingEnabled = false; 
+        this.rows = 4; 
+        this.cols = 4;
+const BOARD_SCALE = 0.78;
+
+this.tileW = (this.canvas.width * BOARD_SCALE) / this.cols;
+this.tileH = this.tileW * 0.5;
+        const vh = window.innerHeight;
+
+this.gridOffsetY = this.canvas.height * 0.14;
+
+
+        this.colors = {
+            light: '#96A2B3', 
+            dark: '#596070', 
+            highlight: 'rgba(230, 157, 56, 0.6)'
+        };
+
+        this.images = {};
+        this.loadedCount = 0;
+        
+        this.sources = {
+            'b_k': 'B_King.png', 'w_k': 'W_King.png',
+            'b_q': 'B_Queen.png', 'w_q': 'W_Queen.png',
+            'b_b': 'B_Bishop.png', 'w_b': 'W_Bishop.png',
+            'b_r': 'B_Rook.png',   'w_r': 'W_Rook.png',
+            'b_n': 'B_Knight.png', 'w_n': 'W_Knight.png',
+            'b_p': 'B_Pawn.png',   'w_p': 'W_Pawn.png'
+        };
+        this.totalImages = Object.keys(this.sources).length;
+
+        this.loadImages();
+        this.animating = false;
+        this.animation = null;
+
+        const loop = () => {
+
+    if (typeof engine !== "undefined" && !this.animating) {
+
+        this.draw(engine);
+
+    }
+
+    requestAnimationFrame(loop);
+};
+
+requestAnimationFrame(loop);
+
+    }  
+
+    loadImages() {
+        for (let key in this.sources) {
+            const img = new Image();
+            img.src = this.sources[key];
+            img.onload = () => {
+                this.loadedCount++;
+                if(this.loadedCount === this.totalImages) {
+                    if(typeof engine !== 'undefined') this.draw(engine); 
+                }
+            };
+            img.onerror = () => console.warn(`Missing: ${this.sources[key]}`);
+            this.images[key] = img;
+        }
+    }
+
+    draw(engine, skip = null) {
+
+        this.ctx.clearRect(
+        0,
+        0,
+        this.canvas.width,
+        this.canvas.height
+    );
+
+        for (let r = 0; r < this.rows; r++) {
+            for (let c = 0; c < this.cols; c++) {
+                const x = c * this.tileW;
+                const y = this.gridOffsetY + (r * this.tileH);
+                
+                const isDark = (r + c) % 2 === 1;
+                this.ctx.fillStyle = isDark ? this.colors.dark : this.colors.light;
+                const inset = 2;
+                this.ctx.fillRect(
+                Math.floor(x + inset),
+                Math.floor(y + inset),
+                Math.ceil(this.tileW - inset * 2),
+                Math.ceil(this.tileH - inset * 2)
+            );
+                if (r === this.rows - 1) {
+                    this.ctx.fillStyle = '#1a120f';
+                    this.ctx.fillRect(Math.floor(x), Math.floor(y + this.tileH), Math.ceil(this.tileW), 8);
+                }
+            }
+        }
+        if (engine.lastMove) {
+            this.drawHighlight(engine.lastMove.from.r, engine.lastMove.from.c);
+            this.drawHighlight(engine.lastMove.to.r, engine.lastMove.to.c);
+        }
+        for (let r = 0; r < this.rows; r++) {
+            for (let c = 0; c < this.cols; c++) {
+                const p = engine.board[r][c];
+                if (p) {
+    if (
+        skip &&
+        skip.r === r &&
+        skip.c === c
+    ) {
+        continue;
+    }
+
+    const key = `${p.c}_${p.t}`;
+    this.drawSprite(key, c, r);
+}
+
+            }
+        }
+    }
+
+    drawHighlight(r, c) {
+        const x = c * this.tileW;
+        const y = this.gridOffsetY + (r * this.tileH);
+        this.ctx.fillStyle = this.colors.highlight;
+        this.ctx.fillRect(x, y, this.tileW, this.tileH);
+    }
+
+    drawSprite(key, c, r, offsetX = 0, offsetY = 0, alpha = 1) {
+    const img = this.images[key];
+    if (!img || !img.complete) return;
+
+    const scale = 2.4;
+    const drawW = img.naturalWidth * scale;
+    const drawH = img.naturalHeight * scale;
+
+    const tileX = c * this.tileW;
+    const tileY = this.gridOffsetY + (r * this.tileH);
+
+    const centerX = tileX + this.tileW / 2;
+    const centerY = tileY + this.tileH / 2;
+
+    const drawX = centerX - drawW / 2 + offsetX;
+    const groundOffset = this.tileH * -1.3;
+    const drawY = centerY - drawH / 2 + groundOffset + offsetY;
+
+    this.ctx.fillStyle = "rgba(0,0,0,0.35)";
+    this.ctx.beginPath();
+    this.ctx.ellipse(
+        centerX + offsetX,
+        tileY + this.tileH - 9,
+        this.tileW * 0.28,
+        this.tileH * 0.18,
+        0, 0, Math.PI * 2
+    );
+    this.ctx.fill();
+
+    this.ctx.globalAlpha = alpha;
+    this.ctx.drawImage(
+        img,
+        Math.floor(drawX),
+        Math.floor(drawY),
+        Math.floor(drawW),
+        Math.floor(drawH)
+    );
+    this.ctx.globalAlpha = 1;
+}
+    animateMove(engine, move, onComplete) {
+    if (this.animating) return;
+    this.animating = true;
+
+    const attacker = engine.board[move.from.r][move.from.c];
+    const defender = engine.board[move.to.r][move.to.c];
+
+    const start = performance.now();
+    const duration = defender ? 420 : 220;
+
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    const step = (now) => {
+        const t = Math.min((now - start) / duration, 1);
+
+        this.draw(engine, move.from);
+
+        const fx = move.from.c;
+        const fy = move.from.r;
+        const tx = move.to.c;
+        const ty = move.to.r;
+
+        const slideT = Math.min(t / 0.6, 1);
+        let px = lerp(fx, tx, slideT);
+        let py = lerp(fy, ty, slideT);
+
+        let kickX = 0;
+        let kickY = 0;
+
+        if (defender && t > 0.6) {
+            const k = (t - 0.6) / 0.4;
+            kickX = Math.sin(k * Math.PI) * 10;
+            kickY = -Math.sin(k * Math.PI) * 6;
+        }
+
+        this.drawSprite(
+            `${attacker.c}_${attacker.t}`,
+            px,
+            py,
+            kickX,
+            kickY
+        );
+
+        if (defender && t > 0.6 && t < 0.9) {
+            const jt = (t - 0.6) / 0.3;
+            const jumpY = -Math.sin(jt * Math.PI) * 40;
+            const jumpX = (tx > fx ? 1 : -1) * jt * 30;
+
+            this.drawSprite(
+                `${defender.c}_${defender.t}`,
+                tx,
+                ty,
+                jumpX,
+                jumpY,
+                1 - jt
+            );
+        }
+
+        if (t < 1) {
+            requestAnimationFrame(step);
+        } else {
+            this.animating = false;
+            onComplete();
+        }
+    };
+
+    requestAnimationFrame(step);
+}
+}
+
+function positionGame() {
+
+const wrapper = document.querySelector(".canvas-wrapper");
+
+wrapper.style.left = "50%";
+wrapper.style.top = "58%";
+wrapper.style.transform = "translate(-50%, -50%)";
+}
+
+
+class AudioEngine {
+    constructor() {
+        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        this.master = this.ctx.createGain();
+this.master.gain.value = 0.3;
+
+this.chordGain = this.ctx.createGain();
+this.chordGain.gain.value = 3.8;
+
+this.chordGain.connect(this.master);
+this.master.connect(this.ctx.destination);
+    }
+
+    playTone(freq, type, dur, timeObj = 0, output = this.master) {
+
+    if (this.ctx.state === 'suspended')
+        this.ctx.resume();
+
+    const t = this.ctx.currentTime + timeObj;
+
+    const osc = this.ctx.createOscillator();
+    const g = this.ctx.createGain();
+
+    osc.type = type;
+    osc.frequency.value = freq;
+
+    g.gain.setValueAtTime(0.5, t);
+    g.gain.exponentialRampToValueAtTime(0.01, t + dur);
+
+    osc.connect(g);
+    g.connect(output);
+
+    osc.start(t);
+    osc.stop(t + dur);
+}
+
+    playChord(name) {
+        const root = name.replace(' Sus2', '');
+        const NOTES = { 'C': 261.63, 'C#': 277.18, 'D': 293.66, 'D#': 311.13, 'E': 329.63, 'F': 349.23, 'F#': 369.99, 'G': 392.00, 'G#': 415.30, 'A': 440.00, 'A#': 466.16, 'B': 493.88 };
+        const rootFreq = NOTES[root];
+        if (!rootFreq) return;
+        const freqs = [
+    rootFreq,
+    rootFreq * Math.pow(2, 2/12),
+    rootFreq * Math.pow(2, 7/12)
+];
+        freqs.forEach((f, i) =>
+    this.playTone(f, 'sine', 1.0, i * 0.05, this.chordGain)
+);
+    }
+
+    playSFX(type) {
+        if (type === 'move') this.playTone(150, 'triangle', 0.05);
+        if (type === 'win') {
+            this.playTone(523, 'square', 0.1, 0); this.playTone(659, 'square', 0.1, 0.1); this.playTone(784, 'square', 0.4, 0.2);
+        }
+        if (type === 'fail') {
+            this.playTone(150, 'sawtooth', 0.3); this.playTone(100, 'sawtooth', 0.3, 0.2);
+        }
+    }
+}
+
+const bg = document.getElementById("background");
+
+const frames = [
+    "background1.png",
+    "background2.png"
+];
+
+let frame = 0;
+
+const preload1 = new Image();
+preload1.src = "background1.png";
+
+const preload2 = new Image();
+preload2.src = "background2.png";
+
+bg.style.backgroundImage = `url(${frames[0]})`;
+
+setInterval(() => {
+
+    frame = (frame + 1) % frames.length;
+
+    bg.style.backgroundImage = `url(${frames[frame]})`;
+
+}, 500);
+
+    const engine = new MiniChessEngine();
+    const renderer = new Renderer('gameCanvas');
+    const audio = new AudioEngine();
+    const ui = {
+    setup: document.getElementById('setup-screen'),
+    game: document.getElementById('game-ui'),
+    status: document.getElementById('status-msg'),
+    options: document.getElementById('options-grid'),
+    start: document.getElementById('start-btn'),
+    replay: document.getElementById('replay-btn')
+};
+
+const CHORDS = [
+    'C Sus2', 'C# Sus2', 'D Sus2', 'D# Sus2',
+    'E Sus2', 'F Sus2', 'F# Sus2', 'G Sus2',
+    'G# Sus2', 'A Sus2', 'A# Sus2', 'B Sus2'
+];let currentChord = null;
+
+function restartGame() {
+
+    engine.reset();
+
+    currentChord = null;
+    engine.lastMove = null;
+
+    renderer.draw(engine);
+
+    ui.replay.innerHTML = `
+        <i class="fa-solid fa-volume-high"></i>
+        Replay Sound
+    `;
+
+    ui.replay.onclick = () => {
+
+        if(currentChord){
+
+            audio.playChord(currentChord);
+
+        }
+
+    };
+
+    ui.options.innerHTML = "";
+
+    nextTurn();
+
+}
+
+function init() {
+    const list = document.getElementById('chord-list');
+    list.innerHTML = '';
+    CHORDS.forEach(c => {
+        const btn = document.createElement('button');
+        btn.innerText = c;
+        btn.onclick = () => {
+            btn.classList.toggle('selected');
+        };
+        list.appendChild(btn);
+    });
+
+    ui.start.onclick = startGame;
+    ui.replay.onclick = () => {
+
+    console.log("Replay clicked");
+    console.log(currentChord);
+
+    if(currentChord){
+
+        audio.playChord(currentChord);
+
+    }
+
+};
+    setTimeout(() => renderer.draw(engine), 100);
+}
+
+function startGame() {
+    ui.replay.innerHTML = `
+<i class="fa-solid fa-volume-high"></i>
+Replay Sound
+`;
+
+ui.replay.onclick = () => {
+
+    if(currentChord){
+
+        audio.playChord(currentChord);
+
+    }
+
+};
+    const errorMsg = document.getElementById('setup-error');
+    const selectedButtons = document.querySelectorAll('#chord-list button.selected');
+    if (selectedButtons.length < 4) {
+        errorMsg.style.display = 'block';
+        return;
+    }
+    errorMsg.style.display = 'none';
+    activeChords = Array.from(selectedButtons).map(btn => btn.innerText);
+    ui.setup.classList.add('hidden');
+    ui.game.style.display = "none";
+    nextTurn();
+}
+
+function nextTurn() {
+    if (engine.gameOver) {
+        const msg = engine.winner === 'w' ? "YOU WIN! King Captured!" : "BLACK WINS! You Lost!";
+        ui.status.innerText = msg;
+        audio.playSFX(engine.winner === 'w' ? 'win' : 'fail');
+ui.replay.innerHTML = `
+<i class="fa-solid fa-rotate-right"></i>
+Play Again
+`;
+
+ui.replay.onclick = restartGame;
+        return;
+    }
+
+    ui.status.innerText = "Listen...";
+    currentChord = activeChords[Math.floor(Math.random() * activeChords.length)];
+    ui.options.innerHTML = '';
+    
+    setTimeout(() => {
+        audio.playChord(currentChord);
+        ui.status.innerText = "Guess The Chord";
+        generateButtons();
+    }, 600);
+}
+
+function generateButtons() {
+    ui.options.innerHTML = '';
+    const OPTION_COUNT = 4;
+    const options = new Set([currentChord]);
+    while (options.size < OPTION_COUNT) {
+        options.add(activeChords[Math.floor(Math.random() * activeChords.length)]);
+    }
+    const shuffled = [...options].sort(() => Math.random() - 0.5);
+    shuffled.forEach(chord => {
+        const btn = document.createElement('button');
+        btn.innerText = chord;
+        btn.onclick = () => handleGuess(chord, btn);
+        ui.options.appendChild(btn);
+    });
+}
+
+function handleGuess(guess, btn) {
+    const btns = document.querySelectorAll('#options-grid button');
+    btns.forEach(b => b.disabled = true);
+
+    if (guess === currentChord) {
+        btn.classList.add('correct');
+        ui.status.innerText = "Correct! White Moves";
+        audio.playSFX('win'); 
+        performMove('w');
+    } else {
+        btn.classList.add('wrong');
+        ui.status.innerText = "Wrong! Black Attacks";
+        audio.playSFX('fail');
+        btns.forEach(b => { if(b.innerText === currentChord) b.classList.add('correct'); });
+        performMove('b');
+    }
+}
+
+function performMove(color) {
+    setTimeout(() => {
+        const moves = engine.getLegalMoves(color);
+        if (moves.length > 0) {
+            moves.sort((a, b) => {
+                const targetA = engine.board[a.to.r][a.to.c];
+                const targetB = engine.board[b.to.r][b.to.c];
+                let scoreA = targetA ? (targetA.t === 'k' ? 100 : 10) : 0;
+                let scoreB = targetB ? (targetB.t === 'k' ? 100 : 10) : 0;
+                return (scoreB - scoreA) + (Math.random() * 2 - 1);
+            });
+            
+            const bestMove = moves[0];
+            renderer.animateMove(engine, bestMove, () => {
+    engine.move(bestMove);
+audio.playSFX('move');
+
+renderer.draw(engine);
+
+engine.lastMove = null;
+});
+
+        } else {
+            if(!engine.gameOver) {
+                ui.status.innerText = "No moves! Skip turn.";
+            }
+        }
+        setTimeout(nextTurn, 1000);
+    }, 800);
+}
+init();
+</script>
+</body>
+</html>

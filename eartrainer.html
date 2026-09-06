@@ -1,0 +1,410 @@
+<html lang="en"> 
+    <head> <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>Ear Training Arena | Select Mode</title>
+    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
+<link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+<link href="[https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap)" 
+rel="stylesheet">
+
+<style>
+    :root {
+        --c-bg: #f8f9fa;
+        --c-surface: #ffffff;
+        --c-text-primary: #333333;
+        --c-text-secondary: #666666;
+        --c-accent: #dfa630;
+        --border: #e9ecef;
+        --c-accent-glow: rgba(223, 166, 48, 0.4);
+        --c-overlay: #050507;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        --trans-speed: 0.3s;
+        --portal-speed: 0.8s;
+        
+        --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+            :root {
+            --c-bg: #121212;
+            --c-surface: #1e1e1e;
+            --c-text-primary: #f8f9fa;
+            --c-text-secondary: #8a8a8a;
+            --c-accent: #dfa630;
+            --c-accent-glow: rgba(223, 166, 48, 0.4);
+            --border: #343a40;
+            --shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            --trans-speed: 0.3s;
+            --portal-speed: 0.8s;
+        
+            --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+            }
+        }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--c-bg);
+        color: var(--c-text-primary);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        overflow-y: auto;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    .page-bg {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background: var(--c-bg);
+        background-size:
+        cover,
+        40px 40px,
+        40px 40px;
+        pointer-events: none;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1100px;
+        padding: 2rem;
+        padding-top: 10.5rem;
+        padding-bottom: 4rem;
+        z-index: 1;
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 4rem;
+        color: var(--c-text-primary);
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 1rem;
+        text-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
+
+    p.subtitle {
+        font-size: 1.1rem;
+        color: var(--c-text-secondary);
+        font-weight: 300;
+    }
+
+    .arena-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        perspective: 1000px;
+    }
+
+    .card {
+        background: var(--c-surface);
+        border-radius: 12px;
+        padding: 2rem;
+        text-decoration: none;
+        color: var(--c-text-primary);
+        position: relative;
+        transition: all var(--trans-speed) var(--ease-out);
+        border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        cursor: pointer;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 100%;
+        height: 4px;
+        background: var(--c-accent);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform var(--trans-speed) ease;
+    }
+
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px var(--c-accent-glow);
+    }
+
+    .card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .card h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .level-badge {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+        padding: 4px 8px;
+        border-radius: 4px;
+        background: var(--c-bg);
+        color: var(--c-text-secondary);
+    }
+
+    .card p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: var(--c-text-secondary);
+    }
+
+    .card.is-active {
+        z-index: 9999;
+        transform: scale(1.1) translateY(-10px);
+        box-shadow: 0 0 50px var(--c-accent-glow), 0 0 100px rgba(223, 166, 48, 0.2);
+        border-color: var(--c-accent);
+        cursor: default;
+    }
+
+    .card.is-active::before {
+        transform: scaleX(1);
+    }
+
+    .container.is-transitioning header,
+    .container.is-transitioning .card:not(.is-active) {
+        opacity: 0.1;
+        filter: blur(4px);
+        transform: scale(0.95);
+        pointer-events: none;
+        transition: all 0.6s ease;
+    }
+
+    .portal-overlay {
+        position: fixed;
+        inset: 0;
+        background: #596070;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 9000;
+        transition: opacity 0.8s ease;
+    }
+
+    .portal-active .portal-overlay {
+        opacity: 1;
+        background-color: #0C0C17;
+    }
+
+    @media (max-width: 768px) {
+        h1 { font-size: 2rem; }
+        .container { padding: 1.5rem; }
+        .card:hover { transform: translateY(-4px); }
+    }
+</style>
+</head> 
+<div class="page-bg"></div>
+<body>
+    <div class="portal-overlay"></div>
+
+<main class="container" id="main-container">
+    <header>
+        <h1>Ear Training Arena</h1>
+        <p class="subtitle">Train your ears before you play. Choose a chord family to begin.</p>
+    </header>
+
+    <div class="arena-grid">
+        
+        <a href="earmaj.html" class="card" data-sound="major">
+            <div class="card-header">
+                <h2>Major Chords</h2>
+                <span class="level-badge">Beginner</span>
+            </div>
+            <p>Clear and stable tonal center.</p>
+        </a>
+
+        <a href="earmin.html" class="card" data-sound="minor">
+            <div class="card-header">
+                <h2>Minor Chords</h2>
+                <span class="level-badge">Beginner</span>
+            </div>
+            <p>Darker color with emotional weight.</p>
+        </a>
+
+        <a href="ear5.html" class="card" data-sound="5">
+            <div class="card-header">
+                <h2>Power Chords</h2>
+                <span class="level-badge">Beginner</span>
+            </div>
+            <p>Root-driven sound without harmony.</p>
+        </a>
+
+        <a href="earsus2.html" class="card" data-sound="sus2">
+            <div class="card-header">
+                <h2>Sus2</h2>
+                <span class="level-badge">Intermediate</span>
+            </div>
+            <p>Open sound with delayed resolution.</p>
+        </a>
+
+        <a href="earsus4.html" class="card" data-sound="sus4">
+            <div class="card-header">
+                <h2>Sus4</h2>
+                <span class="level-badge">Intermediate</span>
+            </div>
+            <p>Tension that wants to resolve.</p>
+        </a>
+
+        <a href="earmaj7.html" class="card" data-sound="maj7">
+            <div class="card-header">
+                <h2>Major 7</h2>
+                <span class="level-badge">Intermediate</span>
+            </div>
+            <p>Smooth and jazzy harmonic color.</p>
+        </a>
+
+        <a href="earm7.html" class="card" data-sound="m7">
+            <div class="card-header">
+                <h2>Minor 7</h2>
+                <span class="level-badge">Intermediate</span>
+            </div>
+            <p>Warm tone with subtle tension.</p>
+        </a>
+
+        <a href="eardom7.html" class="card" data-sound="dom7">
+            <div class="card-header">
+                <h2>Dominant 7</h2>
+                <span class="level-badge">Advanced</span>
+            </div>
+            <p>Strong tension leading to resolution.</p>
+        </a>
+
+        <a href="ear7sus4.html" class="card" data-sound="7sus4">
+            <div class="card-header">
+                <h2>7sus4</h2>
+                <span class="level-badge">Advanced</span>
+            </div>
+            <p>Suspended tension without release.</p>
+        </a>
+
+        <a href="earadd9.html" class="card" data-sound="add9">
+            <div class="card-header">
+                <h2>Add9</h2>
+                <span class="level-badge">Advanced</span>
+            </div>
+            <p>Expanded color without heaviness.</p>
+        </a>
+
+        <a href="ear9.html" class="card" data-sound="9">
+            <div class="card-header">
+                <h2>9</h2>
+                <span class="level-badge">Advanced</span>
+            </div>
+            <p>Extended harmony with added tension.</p>
+        </a>
+
+        <a href="ear7up9.html" class="card" data-sound="7#9">
+            <div class="card-header">
+                <h2>7♯9</h2>
+                <span class="level-badge">Advanced</span>
+            </div>
+            <p>Aggressive tension-rich sound.</p>
+        </a>
+
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.card');
+        const container = document.getElementById('main-container');
+        const body = document.body;
+        let isLocked = false;
+
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+
+        const playPortalSound = () => {
+            if (!audioCtx) audioCtx = new AudioContext();
+            
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            const now = audioCtx.currentTime;
+
+            const osc = audioCtx.createOscillator();
+            osc.type = 'triangle';
+            
+            const gainNode = audioCtx.createGain();
+            
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(400, now);
+            filter.frequency.exponentialRampToValueAtTime(800, now + 0.4);
+
+            osc.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            osc.frequency.setValueAtTime(220, now);
+            osc.frequency.exponentialRampToValueAtTime(329.63, now + 0.1);
+
+            gainNode.gain.setValueAtTime(0, now);
+            gainNode.gain.linearRampToValueAtTime(0.3, now + 0.1);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
+
+            osc.start(now);
+            osc.stop(now + 0.9);
+        };
+
+        const handleTransition = (e) => {
+            e.preventDefault();
+            
+            if (isLocked) return;
+            isLocked = true;
+            const clickedCard = e.currentTarget;
+            const targetUrl = clickedCard.href;
+
+            try {
+                playPortalSound();
+            } catch (err) {
+                console.log("Audio play failed (user interaction policy likely met via click):", err);
+            }
+
+            clickedCard.classList.add('is-active');
+            container.classList.add('is-transitioning');
+            body.classList.add('portal-active');
+
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 800);
+        };
+
+        cards.forEach(card => {
+            card.addEventListener('click', handleTransition);
+        });
+    });
+
+    window.addEventListener("pageshow", function(event) {
+
+    if (event.persisted) {
+        window.location.reload();
+    }
+
+});
+
+</script>
+</body> 
+</html>

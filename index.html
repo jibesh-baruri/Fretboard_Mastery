@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Modern Guitar Tutorials - Learn Guitar the Smart Way">
+    <title>Fretboard Mastery | Learn Guitar</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-body: #cccccc;
+            --bg-white: #ffffff;
+            --text-main: #333333;
+            --text-light: #666666;
+            --primary: #212529;
+            --accent: #495057;
+            --border: #e9ecef;
+            
+            --container-width: 1500px;
+            --radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+  :root {
+    --bg-body: #121212;
+    --bg-white: #1e1e1e;
+
+    --text-main: #f1f3f5;
+    --text-light: #adb5bd;
+
+    --primary: #f8f9fa;
+    --accent: #ced4da;
+
+    --border: #2a2a2a;
+
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  }
+}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+       body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+  touch-action: manipulation;
+}
+
+.page-scale {
+  transform: scale(1.25);
+  transform-origin: top left;
+  width: 80%;
+}
+
+        @media (max-width: 768px) {
+  .course-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 5px;   
+        }
+
+        .brand img {
+            height: 20px;
+            width: 15px;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: px;
+            color: var(--text-main);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius);
+            font-weight: 600;
+            transition: var(--transition);
+            border: 1px solid var(--primary);
+            cursor: pointer;
+        }
+
+        .hero .btn {
+          background-color: white;
+          color: #000;
+          border: none;
+        }
+
+        .hero .btn:hover {
+          background-color: #212529;
+          color: white;
+          transform: translateY(-2px);
+        }
+
+       @media (prefers-color-scheme: dark) {
+
+        .hero .btn {
+          background-color: #ffffff;
+          color: #000000;
+        }
+  
+       .hero .btn:hover {
+          background-color: #272727;
+        }
+        }
+
+        .btn:hover {
+            background-color: white;
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        header {
+            background-color: var(--bg-white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        header {
+        transition: transform 0.35s ease-in-out;
+        } 
+
+        header.hide {
+        transform: translateY(-100%);
+        }
+
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+        
+        .logo i {
+            margin-right: 8px;
+        }
+
+        .nav-links { 
+            display: flex; 
+            gap: 30px; 
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .hamburger i {
+          transition: transform 0.35s ease, opacity 0.2s ease;
+        }
+
+        .hamburger.active i {
+          transform: rotate(90deg);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .language-switch {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 72px;
+            height: 34px;
+            padding: 3px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: var(--bg-white);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .language-switch a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 28px;
+            min-width: 32px;
+            padding: 0 7px;
+            border-radius: 999px;
+            color: var(--text-light);
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-decoration: none;
+            line-height: 1;
+            transition: all 0.2s ease;
+        }
+
+        .language-switch a.active {
+            background: var(--primary);
+            color: var(--bg-white);
+        }
+
+        .language-switch a:not(.active):hover {
+            color: var(--text-main);
+            background: var(--border);
+        }
+
+        @media (max-width: 768px) {
+            .header-actions {
+                gap: 10px;
+            }
+
+            .language-switch {
+                min-width: 68px;
+                height: 32px;
+            }
+
+            .language-switch a {
+                height: 26px;
+                min-width: 30px;
+                padding: 0 6px;
+                font-size: 0.75rem;
+            }
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: #e0e0e0;
+        }
+
+        .courses-section {
+            padding: 80px 0;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .course-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .course-image {
+            height: 200px;
+            background-color: #ddd;
+            position: relative;
+        }
+
+        .course-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: var(--transition);
+        }
+
+        .course-card:hover .course-image img {
+            filter: grayscale(0%);
+        }
+
+        .course-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .course-badge {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .course-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .course-desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .course-link {
+            display: block;
+            height: 100%;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .course-link:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 4px;
+        }
+
+        .course-footer {
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .features-section {
+            background-color: #212529;
+            padding: 80px 0;
+        }
+
+        .features-section .section-title, 
+        .features-section .section-subtitle {
+            color: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .feature-item i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #adb5bd;
+        }
+
+        .feature-item h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .feature-item p {
+            color: #ced4da;
+            font-size: 0.95rem;
+        }
+
+        .testimonials-section {
+            padding: 80px 0;
+            background-color: var(--bg-body);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--bg-white);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #ddd;
+            overflow: hidden;
+        }
+        
+        .author-info h4 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        
+        .author-info span {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        footer {
+            background-color: var(--bg-white);
+            border-top: 1px solid var(--border);
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            color: var(--text-main);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-icons a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                position: relative;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+
+            .header-actions {
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background-color: var(--bg-white);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                gap: 20px;
+                border-bottom: 1px solid var(--border);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+#portal-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: transparent;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+#portal-transition .portal-circle {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: var(--portal-size, 200vmax);
+    height: var(--portal-size, 200vmax);
+    border-radius: 50%;
+    background: #3F6F2D;
+    transform: translate(-50%, -50%) scale(0);
+    transform-origin: center center;
+    will-change: transform;
+}
+
+#portal-transition.active .portal-circle {
+    animation: portalCircleExpand 0.85s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes portalCircleExpand {
+    from {
+        transform: translate(-50%, -50%) scale(0);
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+</style>
+</head>
+<body>
+<div id="portal-transition"></div>
+<div class="page-scale"></div>
+    <header>
+        <div class="container navbar">
+        <div class="brand">
+        <img id="logoImg" src="logo.png" alt="Fretboard Mastery Logo">
+        <span class="brand-name">Fretboard Mastery</span>
+        </div> 
+            <nav>
+                <ul class="nav-links" id="navLinks">
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#why-us">Why Us</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html" id="loginBtn">Log In</a>
+    </li>
+</ul>
+            </nav>
+
+            <div class="header-actions">
+                <div class="language-switch" aria-label="Language selection">
+                    <a href="index.html" class="active" aria-label="Switch to English">EN</a>
+                    <a href="index-bn.html" aria-label="বাংলায় দেখুন">বাংলা</a>
+                </div>
+
+                <div class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>Learn Guitar in Bengali</h1>
+                <p>Master the fretboard with structured, step-by-step lessons from experienced instructors. Start your journey today.</p>
+                <a href="#courses" class="btn">View All Courses</a>
+            </div>
+        </section>
+
+        <section class="courses-section" id="courses">
+            <div class="container">
+                <h2 class="section-title">Featured Courses</h2>
+                <p class="section-subtitle">Hand-picked curriculums designed to take you from beginner to pro.</p>
+                
+                <div class="course-grid">
+
+                    <a href="acousticFoundation.html" class="course-link">
+                <article class="course-card">
+                   <div class="course-image">
+                     <img src="https://image2url.com/r2/bucket3/images/1766913669637-10fadff7-545c-4862-82c4-2bdc8ec9f8da.jpeg" alt="Music Theory Basics">
+                   </div>
+
+                   <div class="course-content">
+                     <span class="course-badge">Beginner</span>
+                     <h3 class="course-title">Music Theory Basics</h3>
+                     <p class="course-desc">
+                       A free introductory lesson covering the Chromatic Wheel, sharps and flats and the basic Time signatures.
+                     </p>
+
+                     <div class="course-footer">
+                       <span><i class="fa fa-puzzle-piece"></i> compulsory</span>
+                       <span class="btn-outline" style="font-weight:700; font-size:0.9rem;">
+                         Open →
+                       </span>
+                     </div>
+                   </div>
+                 </article>
+               </a>
+
+               <a href="notefishing.html" class="course-link">
+                <article class="course-card">
+                   <div class="course-image">
+                     <img src="https://image2url.com/r2/bucket3/images/1766915676052-10ba2ae6-c42b-412c-b420-293d33f9266b.jpg" alt="Ear Trainer">
+                   </div>
+
+                   <div class="course-content">
+                     <span class="course-badge">Game</span>
+                     <h3 class="course-title">Fretboard Trainer</h3>
+                     <p class="course-desc">
+                       A challenge that helps you develop deeper awareness of fretboard layout through interactive practice.
+                     </p>
+
+                     <div class="course-footer">
+                       <span><i class="fas fa-gamepad"></i> free</span>
+                       <span class="btn-outline" style="font-weight:700; font-size:0.9rem;">
+                         Open →
+                       </span>
+                     </div>
+                   </div>
+                 </article>
+               </a>
+
+                    <a href="eartrainer.html" class="course-link">
+                <article class="course-card">
+                   <div class="course-image">
+                     <img src="https://www.image2url.com/r2/default/images/1786870057468-cfc98893-fd5a-4cc8-b7c5-c56a84a3f079.png" alt="Ear Trainer">
+                   </div>
+
+                   <div class="course-content">
+                     <span class="course-badge">Game</span>
+                     <h3 class="course-title">Ear Trainer</h3>
+                     <p class="course-desc">
+                       A challenge that helps you develop deeper awareness of sound through interactive practice.
+                     </p>
+
+                     <div class="course-footer">
+                       <span><i class="fas fa-gamepad"></i> free</span>
+                       <span class="btn-outline" style="font-weight:700; font-size:0.9rem;">
+                         Open →
+                       </span>
+                     </div>
+                   </div>
+                 </article>
+               </a>
+
+               <a href="tuner.html" class="course-link">
+                <article class="course-card">
+                   <div class="course-image">
+                     <img src="https://image2url.com/r2/default/images/1771767324459-e6b8ef82-147e-4c96-a203-3db14d5a993f.jpg" alt="tuner">
+                   </div>
+
+                   <div class="course-content">
+                     <span class="course-badge">tuner</span>
+                     <h3 class="course-title">Tune Your Guitar</h3>
+                     <p class="course-desc">
+                        Tune your Guitar with ease and develop a better understanding of pitch, notes, and accurate tuning.
+                     </p>
+
+                     <div class="course-footer">
+                       <span><i class="fa fa-music"></i> free</span>
+                       <span class="btn-outline" style="font-weight:700; font-size:0.9rem;">
+                         Open →
+                       </span>
+                     </div>
+                   </div>
+                 </article>
+               </a>
+
+                    <a href="acousticFoundation.html" class="course-link">
+                <article class="course-card">
+                   <div class="course-image">
+                     <img src="https://image2url.com/r2/bucket2/images/1766770039229-70efea05-cdd6-4d15-a85d-750496b3652a.jpg" alt="Acoustic Foundation">
+                   </div>
+
+                   <div class="course-content">
+                     <span class="course-badge">Beginner</span>
+                     <h3 class="course-title">Acoustic Foundation</h3>
+                     <p class="course-desc">
+                        Learn essential chords, strumming patterns, and rhythm basics to play your first 10 songs.
+                     </p>
+
+                     <div class="course-footer">
+                       <span><i class="far fa-clock"></i> 8 Days</span>
+                       <span class="btn-outline" style="font-weight:700; font-size:0.9rem;">
+                         Open →
+                       </span>
+                     </div>
+                   </div>
+                 </article>
+               </a>
+
+                    <a href="acousticFoundation.html" class="course-link">
+                <article class="course-card">
+                   <div class="course-image">
+                     <img src="https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?auto=format&fit=crop&q=80&w=600" alt="Soloing Secrets">
+                   </div>
+
+                   <div class="course-content">
+                     <span class="course-badge">Intermediate</span>
+                     <h3 class="course-title">Soloing Secrets</h3>
+                     <p class="course-desc">
+                        Unlock the pentatonic scale, bending techniques, and phrasing to create soulful solos.
+                     </p>
+
+                     <div class="course-footer">
+                       <span><i class="far fa-clock"></i> 12 Days</span>
+                       <span class="btn-outline" style="font-weight:700; font-size:0.9rem;">
+                         Open →
+                       </span>
+                     </div>
+                   </div>
+                 </article>
+               </a>
+
+                    <a href="acousticFoundation.html" class="course-link">
+                <article class="course-card">
+                   <div class="course-image">
+                     <img src="https://image2url.com/r2/bucket2/images/1766771795439-0fc673c5-8741-41c4-87d9-bc0974868fc5.jpeg" alt="Fingerstyle Guitar">
+                   </div>
+
+                   <div class="course-content">
+                     <span class="course-badge">Advanced</span>
+                     <h3 class="course-title">Fingerstyle Mastery</h3>
+                     <p class="course-desc">
+                        Develop independence between your thumb and fingers for complex arrangements.
+                     </p>
+
+                     <div class="course-footer">
+                       <span><i class="far fa-clock"></i> 20 Days</span>
+                       <span class="btn-outline" style="font-weight:700; font-size:0.9rem;">
+                         Open →
+                       </span>
+                     </div>
+                   </div>
+                 </article>
+               </a>
+
+                    <a href="acousticFoundation.html" class="course-link">
+                <article class="course-card">
+                   <div class="course-image">
+                     <img src="https://images.unsplash.com/photo-1462965326201-d02e4f455804?auto=format&fit=crop&q=80&w=600" alt="Bass 101">
+                   </div>
+
+                   <div class="course-content">
+                     <span class="course-badge">Comprehensive</span>
+                     <h3 class="course-title">Bass 101</h3>
+                     <p class="course-desc">
+                        Master the fundamentals of bass technique, grooves, rhythm, and music basics.
+                     </p>
+
+                     <div class="course-footer">
+                       <span><i class="far fa-clock"></i> 10 Days</span>
+                       <span class="btn-outline" style="font-weight:700; font-size:0.9rem;">
+                         Open →
+                       </span>
+                     </div>
+                   </div>
+                 </article>
+               </a>
+
+                    <a href="acousticFoundation.html" class="course-link">
+                <article class="course-card">
+                   <div class="course-image">
+                     <img src="https://image2url.com/r2/bucket2/images/1766828093476-9f6b8688-3168-47ac-beb7-d227c68e6503.jpeg" alt="Ukulele 101">
+                   </div>
+
+                   <div class="course-content">
+                     <span class="course-badge">Comprehensive</span>
+                     <h3 class="course-title">Ukulele 101</h3>
+                     <p class="course-desc">
+                        Learn the basics of ukulele playing—chords, strumming patterns, rhythm, and simple songs in an easy-to-understand way.
+                     </p>
+
+                     <div class="course-footer">
+                       <span><i class="far fa-clock"></i> 5 Days</span>
+                       <span class="btn-outline" style="font-weight:700; font-size:0.9rem;">
+                         Open →
+                       </span>
+                     </div>
+                   </div>
+                 </article>
+               </a>
+
+                    <a href="acousticFoundation.html" class="course-link">
+                <article class="course-card">
+                   <div class="course-image">
+                     <img src="https://image2url.com/r2/bucket2/images/1766849232924-a0c34aa6-5bf3-4485-ade2-4483d255fb58.jpeg" alt="Vocal Beginner">
+                   </div>
+
+                   <div class="course-content">
+                     <span class="course-badge">Beginner</span>
+                     <h3 class="course-title">Vocal fundamentals</h3>
+                     <p class="course-desc">
+                        Build a strong vocal foundation with essential techniques like breathing, pitch control, and tone.
+                     </p>
+
+                     <div class="course-footer">
+                       <span><i class="far fa-clock"></i> 10 Days</span>
+                       <span class="btn-outline" style="font-weight:700; font-size:0.9rem;">
+                         Open →
+                       </span>
+                     </div>
+                   </div>
+                 </article>
+               </a>
+
+                    <a href="acousticFoundation.html" class="course-link">
+                <article class="course-card">
+                   <div class="course-image">
+                     <img src="https://image2url.com/r2/bucket2/images/1766849568875-5dea9777-41f8-4ea4-a90c-56dd2d4373c8.jpeg" alt="Vocal Intermediate">
+                   </div>
+
+                   <div class="course-content">
+                     <span class="course-badge">Intermediate</span>
+                     <h3 class="course-title">Vocal Development</h3>
+                     <p class="course-desc">
+                        Strengthen control, range, and expression while refining technique and musicality.
+                     </p>
+
+                     <div class="course-footer">
+                       <span><i class="far fa-clock"></i> 12 Days</span>
+                       <span class="btn-outline" style="font-weight:700; font-size:0.9rem;">
+                         Open →
+                       </span>
+                     </div>
+                   </div>
+                 </article>
+               </a>
+
+                    <a href="acousticFoundation.html" class="course-link">
+                <article class="course-card">
+                   <div class="course-image">
+                     <img src="https://image2url.com/r2/bucket2/images/1766848958255-f5834930-0acd-4760-ad7d-a9622a8d1370.jpeg" alt="Vocal Advanced">
+                   </div>
+
+                   <div class="course-content">
+                     <span class="course-badge">Advanced</span>
+                     <h3 class="course-title">Vocal Advanced</h3>
+                     <p class="course-desc">
+                        Achieve professional-level control, power, and stylistic versatility through advanced vocal training.
+                     </p>
+
+                     <div class="course-footer">
+                       <span><i class="far fa-clock"></i> 15 Days</span>
+                       <span class="btn-outline" style="font-weight:700; font-size:0.9rem;">
+                         Open →
+                       </span>
+                     </div>
+                   </div>
+                 </article>
+               </a>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section" id="why-us">
+            <div class="container">
+                <h2 class="section-title">Why Choose Fretboard Mastery?</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <h3>Expert Teachers</h3>
+                        <p>Learn from touring professionals with decades of experience.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-layer-group"></i>
+                        <h3>Structured Path</h3>
+                        <p>No more random videos. Follow a clear step-by-step curriculum.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa fa-credit-card"></i>
+                        <h3>Undemanding Access</h3>
+                        <p>Pay less, learn more. Revisit lessons whenever you need a refresher.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa fa-language"></i>
+                        <h3>Learn in Bengali</h3>
+                        <p>Simple & clear lessons explained in Bengali, so you can learn faster, play better, and enjoy the journey.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa fa-mortar-board"></i>
+                        <h3>Get Certified</h3>
+                        <p>Earn a recognized guitar certification that validates your skills and showcases your progress as a musician.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-users"></i>
+                        <h3>Community</h3>
+                        <p>Join thousands of students in our active forums for feedback.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials-section">
+            <div class="container">
+                <h2 class="section-title">Student Stories</h2>
+                <p class="section-subtitle">Hear from students who transformed their playing.</p>
+                
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            “I started learning guitar quite late and was a complete beginner with no musical background. I tried learning from YouTube, but the scattered tutorials often left me confused, and I always felt like I needed one-on-one guidance to really understand things. Acoustic Foundation completely changed that for me. The lessons are structured in such a simple and gradual way that I never felt lost. Everything builds naturally from the basics, and before I realized it, I was able to play songs and even start learning solos. For someone who thought they were too late to start, this course gave me the confidence to finally enjoy playing guitar.”
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="student1.png" alt="Student1">
+                            </div>
+                            <div class="author-info">
+                                <h4>Soumyadip Kar</h4>
+                                <span>Acoustic Foundation Student</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            “I started with the basics and gradually worked my way through every course on the platform, eventually reaching Fingerstyle Mastery. What surprised me most was how the interactive games changed the way I learned music. Things like recognizing notes, hearing chords, understanding rhythm, and navigating the fretboard didn't feel like dry theory—they became something I could actually experience and practice. Over time, I developed a strong understanding of advanced music theory and began writing my own music at a much younger age than I ever imagined possible. Today, I explore and play fusion jazz, and I genuinely feel that the structured learning path and interactive approach helped me build skills that would normally take years of scattered learning to develop.”
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="student2.png" alt="Student2">
+                            </div>
+                            <div class="author-info">
+                                <h4>Mainak Sarkar</h4>
+                                <span>Fingerstyle Mastery Student</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            “As a professional classical singer, I initially jumped straight into the Advanced Vocal Course. However, I soon realized that some gaps in my fundamentals needed attention, so I went back and worked through the courses gradually from the beginning—and honestly, I wouldn't recommend skipping that process to anyone. What I appreciate most about Jaybee's teaching is the clarity behind every exercise. Instead of simply telling you what to practice, he explains how each exercise works, why it is useful, and what purpose it serves. That understanding completely changed the way I approach vocal practice.”
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="student3.png" alt="Student3">
+                            </div>
+                            <div class="author-info">
+                                <h4>Bidisha Bhattacharjee</h4>
+                                <span>Advanced Vocal Student</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Fretboard Mastery</h4>
+                    <p style="color:var(--text-light); font-size:0.9rem;">
+                        Empowering guitarists of Bengal with quality education and a supportive community.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4>Learn</h4>
+                    <ul>
+                        <li><a href="#courses">All Courses</a></li>
+                        <li><a href="#courses">Beginner's Guide</a></li>
+                        <li><a href="#courses">Theory</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Fretboard Mastery. All rights reserved.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+  apiKey: "AIzaSyADamV7cnVJtmEhzKcJOTfLvHXI49hNdso",
+  authDomain: "fretboard-mastery.firebaseapp.com",
+  projectId: "fretboard-mastery",
+  storageBucket: "fretboard-mastery.firebasestorage.app",
+  messagingSenderId: "102524815260",
+  appId: "1:102524815260:web:23ec49b3437ad232746a59"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+</script>
+
+<script>
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      console.log("Logged in:", user.email);
+
+      const loginBtn = document.getElementById("loginBtn");
+      if (loginBtn) loginBtn.style.display = "none";
+    }
+  });
+</script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('navLinks');
+
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                hamburger.classList.toggle('active');
+                
+                const icon = hamburger.querySelector('i');
+                if (navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        hamburger.classList.remove('active');
+                        const icon = hamburger.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = 80;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const cards = document.querySelectorAll('.course-card, .feature-item, .testimonial-card');
+            
+            cards.forEach(card => {
+                card.style.opacity = "0";
+                card.style.transform = "translateY(20px)";
+                card.style.transition = "opacity 0.6s ease-out, transform 0.6s ease-out";
+                observer.observe(card);
+            });
+        });
+    </script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const languageLinks = document.querySelectorAll('.language-switch a');
+    const isBengaliPage = /(^|\/)index-bn\.html$/i.test(window.location.pathname);
+
+    languageLinks.forEach(link => {
+        const isBengali = /index-bn\.html$/i.test(link.getAttribute('href') || '');
+        link.classList.toggle('active', isBengali === isBengaliPage);
+    });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const header = document.querySelector('header');
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+
+    if (scrollY > 80) {
+      header.classList.add('hide');
+    } 
+    else {
+      header.classList.remove('hide');
+    }
+  });
+});
+</script>
+<script>
+function updateLogo() {
+  const logo = document.getElementById("logoImg");
+  const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  if (isDark) {
+    logo.src = "logoW.png";
+  } else {
+    logo.src = "logo.png";
+  }
+}
+
+updateLogo();
+window.matchMedia("(prefers-color-scheme: dark)")
+  .addEventListener("change", updateLogo);
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const portal = document.getElementById("portal-transition");
+    const fretboardLink =
+        document.querySelector('a[href="notefishing.html"]');
+
+    if (!portal || !fretboardLink) return;
+
+    let circle = portal.querySelector(".portal-circle");
+
+    if (!circle) {
+        circle = document.createElement("div");
+        circle.className = "portal-circle";
+        portal.appendChild(circle);
+    }
+
+    let lastPointerX = null;
+    let lastPointerY = null;
+
+    const savePointerPosition = (e) => {
+        let point = e;
+
+        if (e.touches && e.touches.length) {
+            point = e.touches[0];
+        } else if (e.changedTouches && e.changedTouches.length) {
+            point = e.changedTouches[0];
+        }
+
+        if (!point || !Number.isFinite(point.clientX) ||
+            !Number.isFinite(point.clientY)) {
+            return;
+        }
+
+        lastPointerX = point.clientX;
+        lastPointerY = point.clientY;
+    };
+
+    const openFretboardPortal = function(e) {
+        e.preventDefault();
+
+        const vv = window.visualViewport;
+
+        const vw = vv ? vv.width : window.innerWidth;
+        const vh = vv ? vv.height : window.innerHeight;
+
+        let x = lastPointerX;
+        let y = lastPointerY;
+
+        if (!Number.isFinite(x) || !Number.isFinite(y)) {
+            const rect = this.getBoundingClientRect();
+            x = rect.left + rect.width / 2;
+            y = rect.top + rect.height / 2;
+        }
+
+        const diameter = Math.ceil(Math.hypot(vw, vh) * 2 + 40);
+
+        circle.style.left = `${x}px`;
+        circle.style.top = `${y}px`;
+        circle.style.width = `${diameter}px`;
+        circle.style.height = `${diameter}px`;
+
+        portal.classList.remove("active");
+        circle.style.animation = "none";
+        void circle.offsetWidth;
+        circle.style.animation = "";
+        portal.classList.add("active");
+
+        setTimeout(() => {
+            window.location.href = this.href;
+        }, 850);
+    };
+
+    fretboardLink.addEventListener(
+        "pointerdown",
+        savePointerPosition,
+        { passive: true }
+    );
+
+    fretboardLink.addEventListener(
+        "touchstart",
+        savePointerPosition,
+        { passive: true }
+    );
+
+    fretboardLink.addEventListener("click", openFretboardPortal);
+
+});
+
+
+window.addEventListener("pageshow", function(event) {
+
+    if (event.persisted) {
+        window.location.reload();
+    }
+
+});
+
+</script>
+
+</body>
+</html>

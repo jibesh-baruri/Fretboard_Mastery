@@ -1,0 +1,1830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Fishing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        :root {
+            --bg-color-top: #196e4d;
+            --bg-color-bottom: #11583f;
+            --text-cream: #e6cc90;
+            --text-orange: #E8A24A;
+            --font-main: 'Press Start 2P', monospace;
+        }
+
+* {
+    font-family: 'Press Start 2P', monospace;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Press Start 2P', monospace;
+    overflow: hidden;
+    background: #000;
+}
+
+        #game-stage {
+
+    position: fixed;
+
+    width: 720px;
+    height: 900px;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+
+    transform-origin: center center;
+
+    overflow: hidden;
+
+    z-index: 5;
+}
+
+        #ui-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .hud-text {
+            position: absolute;
+                color:#F1E3BF;
+
+    text-shadow:
+        -.5px -.5px 0 #000,
+         .5px -.5px 0 #000,
+        -.5px  .5px 0 #000,
+         .5px  .5px 0 #000,
+        -.5px  0   0 #000,
+         .5px  0   0 #000,
+         0   -.5px 0 #000,
+         0    .5px 0 #000,
+         2px 2px 0 #000,
+         3px 3px 0 rgba(0,0,0,.4);
+
+
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        #streak-container { top: 410px; left: 230px; font-size: .66rem; }
+        #score-container { top: 330px; right: 200px; font-size: .66rem; }
+        
+        #target-chord-container {
+            position:absolute;
+            top:250px;
+            left:50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 1.1rem;
+            color:#E6C985;
+        }
+        
+        #target-chord {
+            font-size: 56px;
+           color: #f0a244;
+
+    text-shadow:
+        1px 0 #3A2415,
+        -1px 0 #3A2415,
+        0 1px #3A2415,
+        0 -1px #3A2415,
+        2px 2px #3A2415;
+        }
+
+#current-note-container{
+
+    position:absolute;
+
+    left:50%;
+
+    top:380px;
+
+    transform:translateX(-50%);
+
+    display:flex;
+    width:300px;
+    z-index:11;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+.current-label{
+
+    font-size: .70rem;
+
+    color:#F1E3BF;
+
+    text-shadow:
+        -.5px -.5px 0 #000,
+         .5px -.5px 0 #000,
+        -.5px  .5px 0 #000,
+         .5px  .5px 0 #000,
+        -.5px  0   0 #000,
+         .5px  0   0 #000,
+         0   -.5px 0 #000,
+         0    .5px 0 #000,
+         2px 2px 0 #000,
+         3px 3px 0 rgba(0,0,0,.4);
+
+}
+
+#current-note{
+
+    font-size:20px;
+
+    color:#E8A24A;
+
+    text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
+
+}
+
+        .highlight { color: var(--text-orange); }
+
+#background-canvas{
+
+    position:fixed;
+
+    inset:0;
+
+    width:100vw;
+
+    height:100vh;
+
+    z-index:0;
+
+    image-rendering:pixelated;
+
+}
+
+#game-canvas { position:absolute; left:0; top:0; width:256px; height:256px; z-index:5; image-rendering:pixelated; }
+
+#speech-bubble {
+
+    position: absolute;
+
+    left: 80%;
+    top: 6%;
+    transform: translateX(-50%);
+
+    width: 50px;
+    min-height: 5px;
+
+    background: #fff;
+
+    color: #111;
+
+    font-family: 'Press Start 2P', monospace;
+    font-size: .55rem;
+    line-height: 1.6;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 10px 14px;
+
+    border: none;
+
+    clip-path: polygon(
+        12px 0,
+        calc(100% - 12px) 0,
+        calc(100% - 12px) 6px,
+        calc(100% - 6px) 6px,
+        calc(100% - 6px) 12px,
+        100% 12px,
+
+        100% calc(100% - 12px),
+        calc(100% - 6px) calc(100% - 12px),
+        calc(100% - 6px) calc(100% - 6px),
+        calc(100% - 12px) calc(100% - 6px),
+
+        12px calc(100% - 6px),
+        12px calc(100% - 12px),
+        6px calc(100% - 12px),
+        6px 12px,
+        0 12px,
+
+        0 12px,
+        6px 12px,
+        6px 6px,
+        12px 6px
+    );
+   
+    z-index: 20;
+}
+
+@keyframes bubbleIn{
+
+    0%{
+        opacity:0;
+        transform:translateX(-50%) translateY(8px) scale(.9);
+    }
+
+    100%{
+        opacity:1;
+        transform:translateX(-50%) translateY(0) scale(1);
+    }
+
+}
+
+@keyframes bubbleHover{
+
+    0%,100%{
+        transform:translateX(-50%) translateY(0);
+    }
+
+    50%{
+        transform:translateX(-50%) translateY(-2px);
+    }
+
+}
+
+@keyframes bubbleOut{
+
+    0%{
+        opacity:1;
+        transform:translateX(-50%) translateY(0) scale(1);
+    }
+
+    100%{
+        opacity:0;
+        transform:translateX(-50%) translateY(-6px) scale(.95);
+    }
+
+}
+
+        .blur-fade {
+            filter: blur(6px);
+            opacity: 0.2;
+        }
+
+        #visualizer-canvas{
+
+    position:absolute;
+
+    left:50%;
+
+    top:620px;
+
+    transform:translateX(-50%);
+
+}
+
+    #listener-ui{
+
+    position:absolute;
+
+    left:50%;
+
+    top:673px;
+
+    transform:translateX(-50%);
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+#listener-status{
+
+    text-align:center;
+
+    font-size: .62rem;
+
+    line-height:1.7;
+
+    color:#F1E3BF;
+
+    text-shadow:
+        -.5px -.5px 0 #000,
+         .5px -.5px 0 #000,
+        -.5px  .5px 0 #000,
+         .5px  .5px 0 #000,
+        -.5px  0   0 #000,
+         .5px  0   0 #000,
+         0   -.5px 0 #000,
+         0    .5px 0 #000,
+         2px 2px 0 #000,
+         3px 3px 0 rgba(0,0,0,.4); 
+}
+
+#listener-state{
+
+    color:#E6C985;
+
+}
+
+#listen-toggle{
+
+    font-family:var(--font-main);
+
+    font: size 0.66rem;;
+
+    padding:10px 18px;
+
+    background:#5E7E02;
+
+    color:#F6F0DC;
+
+    border:3px solid #6F9109;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    box-shadow:4px 4px 0 #031b0b9a;
+
+    transition:
+        transform .12s,
+        background .15s;
+
+}
+
+#listen-toggle:hover{
+
+    transform:translateY(-2px);
+
+    background:#688a02;
+
+}
+
+#listen-toggle:active{
+
+    transform:translateY(1px);
+
+}
+
+        #reward-overlay {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #game-container { position:absolute; left:50%; top:430px; transform:translateX(-50%); width:256px; height:256px; }
+
+        #reward-title {
+            color: var(--text-orange);
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+        }
+
+        #reward-image {
+            width: 96px;
+            height: 96px;
+            image-rendering: pixelated;
+            filter: drop-shadow(0px 8px 4px rgba(0,0,0,0.3));
+        }
+
+        #reward-info {
+            margin-top: 20px;
+            font-size: 14px;
+            text-shadow: 2px 2px 0px rgba(2, 2, 2, 0.479);
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.5) translateY(20px); }
+            60% { transform: scale(1.1) translateY(-10px); }
+            100% { transform: scale(1) translateY(0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+
+        @keyframes titleSlide {
+            0% { transform: translateY(15px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .anim-pop { animation: pop 0.4s ease-out forwards; }
+        .anim-float { animation: float 3s ease-in-out infinite; }
+        .anim-title { animation: titleSlide 0.5s ease-out forwards; }
+        
+        .glow-rare { filter: drop-shadow(0px 0px 15px rgba(100, 200, 255, 0.8)); }
+        .glow-treasure { filter: drop-shadow(0px 0px 20px rgba(255, 215, 0, 0.9)); }
+        
+        @keyframes wobble {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+        .anim-wobble { animation: wobble 2s ease-in-out infinite; }
+
+        #start-screen{
+
+    position:fixed;
+
+    inset:0;
+
+    background:#3F6F2D;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:100;
+
+    cursor:default;
+
+}
+
+#start-panel{
+
+    width:420px;
+
+    max-width:80%;
+
+    padding:42px 36px;
+
+    box-sizing:border-box;
+
+    text-align:center;
+
+    background:#1637155b;
+
+    border:4px solid #698F53;
+
+    box-shadow:
+        8px 8px 0 #031B0B;
+
+}
+
+#start-title{
+
+    color:#F0A244;
+
+    font-size:26px;
+
+    line-height:1.5;
+
+    text-shadow:
+        2px 2px 0 #3A2415;
+
+}
+
+#start-subtitle{
+
+    margin-top:10px;
+
+    color:#E6CC90;
+
+    font-size:9px;
+
+}
+
+.start-divider{
+
+    width:70%;
+
+    height:3px;
+
+    margin:26px auto;
+
+    background:#196E4D;
+
+}
+
+#mic-status{
+
+    color:#E6CC90;
+
+    font-size:9px;
+
+    margin-bottom:26px;
+
+}
+
+#sensitivity-title{
+
+    color:#F1E3BF;
+
+    font-size:9px;
+
+    margin-bottom:18px;
+
+}
+
+#sensitivity-control{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+}
+
+.fader-label{
+
+    color:#A9B99F;
+
+    font-size:7px;
+
+}
+
+#sensitivity-slider{
+
+    width:210px;
+
+    appearance:none;
+
+    height:6px;
+
+    background:#052C1C;
+
+    border:2px solid #196E4D;
+
+    outline:none;
+    
+    transform:rotate(180deg);
+
+}
+
+#sensitivity-slider::-webkit-slider-thumb{
+
+    appearance:none;
+
+    width:16px;
+
+    height:30px;
+
+    background:#E8A24A;
+
+    border:3px solid #3A2415;
+
+    cursor:pointer;
+
+}
+
+#sensitivity-slider::-moz-range-thumb{
+
+    width:16px;
+
+    height:30px;
+
+    background:#E8A24A;
+
+    border:3px solid #3A2415;
+
+    cursor:pointer;
+
+}
+
+#sensitivity-value{
+
+    margin-top:12px;
+
+    color:#E8A24A;
+
+    font-size:7px;
+
+}
+
+#mic-hint{
+
+    margin:20px auto 26px;
+
+    max-width:290px;
+
+    color:#A9B99F;
+
+    font-size:7px;
+
+    line-height:1.8;
+
+}
+
+#start-game-button{
+
+    font-family:var(--font-main);
+
+    font-size:10px;
+
+    padding:14px 22px;
+
+    background:#5E7E02;
+
+    color:#F6F0DC;
+
+    border:3px solid #6F9109;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    box-shadow:4px 4px 0 #031B0B;
+
+    transition:
+        transform .12s,
+        background .15s;
+
+}
+
+#start-game-button:hover{
+
+    transform:translateY(-2px);
+
+    background:#688A02;
+
+}
+
+#start-game-button:active{
+
+    transform:translateY(2px);
+
+    box-shadow:2px 2px 0 #031B0B;
+
+}
+        #start-screen p { color: var(--text-orange); font-size: 18px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="background-canvas"></canvas>
+
+    <div id="start-screen">
+
+    <div id="start-panel">
+
+        <div id="start-title">
+            NOTE FISHING
+        </div>
+
+        <div id="start-subtitle">
+            Listen. Play. Catch.
+        </div>
+
+        <div class="start-divider"></div>
+
+        <div id="mic-status">
+            MICROPHONE READY
+        </div>
+
+        <div id="sensitivity-title">
+            INPUT SENSITIVITY
+        </div>
+
+        <div id="sensitivity-control">
+
+            <span class="fader-label">LOW</span>
+
+            <input
+                id="sensitivity-slider"
+                type="range"
+                min="5"
+                max="40"
+                value="15"
+            >
+
+            <span class="fader-label">HIGH</span>
+
+        </div>
+
+        <div id="sensitivity-value">
+            DEFAULT
+        </div>
+
+        <div id="mic-hint">
+            Play a note and adjust until the meter responds.
+        </div>
+
+        <button id="start-game-button">
+            START FISHING
+        </button>
+
+    </div>
+
+</div>
+
+    <div id="game-stage">
+    <div id="ui-layer">
+        <div id="streak-container" class="hud-text">
+            STREAK<br><span id="streak-val" class="highlight">0</span>
+        </div>
+        <div id="target-chord-container" class="hud-text">
+    TARGET NOTE<br>
+<span id="target-chord">C</span>
+</div>
+        <div id="score-container" class="hud-text">
+            SCORE<br><span id="score-val" class="highlight">0</span><br><br>
+            BEST<br><span id="best-score-val">0</span>
+        </div>
+    </div>
+
+    <div id="game-container">
+    <canvas id="game-canvas" width="256" height="256"></canvas>
+
+    <div id="speech-bubble">
+        Hold the note!
+    </div>
+
+</div>
+
+<div id="current-note-container">
+
+    <div class="current-label">
+        YOU ARE PLAYING
+    </div>
+
+    <div id="current-note" class="highlight">
+        --
+    </div>
+
+</div>
+    <canvas id="visualizer-canvas" width="300" height="40"></canvas>
+
+    <div id="listener-ui">
+
+    <div id="listener-status">
+        Play the target note.<br>
+        <span id="listener-state">We're listening...</span>
+    </div>
+
+    <button id="listen-toggle">
+
+    <i id="listen-icon" class="fa-solid fa-pause"></i>
+
+    <span id="listen-label">Stop Listening</span>
+
+</button>
+
+</div>
+
+    <div id="reward-overlay">
+        <div id="reward-title"></div>
+        <img id="reward-image" src="" alt="Reward">
+        <div id="reward-info"></div>
+    </div>
+
+    </div>
+
+    <script>
+        const GAME_STAGE_W = 720;
+        const GAME_STAGE_H = 900;
+
+        function resizeGameStage() {
+    const stage = document.getElementById("game-stage");
+
+    const scaleX = window.innerWidth / 720;
+    const scaleY = window.innerHeight / 900;
+
+    const scale = Math.min(scaleX, scaleY);
+
+    const scaledHeight = 900 * scale;
+    const offsetY = Math.max(
+        0,
+        (window.innerHeight - scaledHeight) / 2
+    );
+
+    stage.style.top = `${offsetY}px`;
+    stage.style.transform =
+        `translateX(-50%) scale(${scale})`;
+}
+
+        const ASSETS = {
+            
+            sprites: {
+                background:{src:"frame_sheet.png",frames:10,loop:true},
+                common_idle: { src: 'common_fish_char_sheet.png', frames: 8, loop: true },
+                rare_idle: { src: 'rare_fish_char_sheet.png', frames: 8, loop: true },
+                common_pull: { src: 'common_pull_sheet.png', frames: 10, loop: false },
+                rare_pull: { src: 'rare_pull_sheet.png', frames: 10, loop: false },
+                treasure_pull: { src: 'loot_pull_sheet.png', frames: 10, loop: false },
+                trash_pull: { src: 'trash_pull_sheet.png', frames: 10, loop: false }
+            },
+            
+            rewards: {
+                common: Array.from({length: 10}, (_, i) => `fish_common${i+1}.png`),
+                rare: Array.from({length: 10}, (_, i) => `fish_rare${i+1}.png`),
+                treasure: ['loot1.png', 'loot2.png'],
+                trash: Array.from({length: 10}, (_, i) => `trash${i+1}.png`)
+            }
+        };
+
+        const NOTES = [
+    "C","C#",
+    "D","D#",
+    "E",
+    "F","F#",
+    "G","G#",
+    "A","A#",
+    "B"
+];
+
+
+        class AssetLoader {
+            constructor() {
+                this.images = {};
+            }
+            async loadAll() {
+                const promises = [];
+                for (const [key, config] of Object.entries(ASSETS.sprites)) {
+                    promises.push(this.loadImage(config.src).then(img => {
+                        this.images[key] = { img, frames: config.frames, loop: config.loop };
+                    }));
+                }
+                return Promise.all(promises);
+            }
+            loadImage(src) {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.onerror = () => resolve(img);
+                    img.src = src;
+                });
+            }
+        }
+
+        class AudioManager {
+            constructor() {
+                this.ctx = null;
+                this.analyser = null;
+                this.dataArray = null;
+            }
+            async initialize() {
+                this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                this.analyser = this.ctx.createAnalyser();
+                this.analyser.fftSize = 4096;
+                this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    const source = this.ctx.createMediaStreamSource(stream);
+                    source.connect(this.analyser);
+                } catch (err) {
+                    console.warn("Microphone access denied. Visualizer will fallback to breathing animation.");
+                }
+                
+                this.startAmbient();
+            }
+            startAmbient() {
+                if(!this.ctx) return;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = 100;
+                gain.gain.value = 0.02;
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+            }
+            playSound(type) {
+                if(!this.ctx) return;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                
+                if(type === 'reel') { osc.frequency.setValueAtTime(400, this.ctx.currentTime); osc.frequency.exponentialRampToValueAtTime(800, this.ctx.currentTime + 0.2); }
+                if(type === 'rare') { osc.type = 'triangle'; osc.frequency.setValueAtTime(800, this.ctx.currentTime); osc.frequency.exponentialRampToValueAtTime(1200, this.ctx.currentTime + 0.5); }
+                if(type === 'treasure') { osc.type = 'square'; osc.frequency.setValueAtTime(1000, this.ctx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 1); }
+                if(type === 'trash') { osc.frequency.setValueAtTime(150, this.ctx.currentTime); osc.frequency.exponentialRampToValueAtTime(50, this.ctx.currentTime + 0.3); }
+                
+                gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.5);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.5);
+            }
+            getVolumeData() {
+                if (!this.analyser) return new Uint8Array(32).fill(0);
+                this.analyser.getByteFrequencyData(this.dataArray);
+                return this.dataArray;
+            }
+            getTimeDomainData() {
+
+    if (!this.analyser)
+        return new Float32Array(4096);
+
+    const buffer = new Float32Array(this.analyser.fftSize);
+
+    this.analyser.getFloatTimeDomainData(buffer);
+
+    return buffer;
+
+}
+        }
+
+        class UIManager {
+            constructor() {
+                this.els = {
+                    streak: document.getElementById('streak-val'),
+                    score: document.getElementById('score-val'),
+                    best: document.getElementById('best-score-val'),
+                    chord: document.getElementById('target-chord'),
+                    canvas: document.getElementById('game-canvas'),
+                    rewardOverlay: document.getElementById('reward-overlay'),
+                    rewardTitle: document.getElementById('reward-title'),
+                    rewardImg: document.getElementById('reward-image'),
+                    rewardInfo: document.getElementById('reward-info'),
+                    currentNote: document.getElementById("current-note"),
+                    bubble: document.getElementById("speech-bubble"),
+                };
+            }
+            updateStats(score, streak, best, targetChord) {
+                this.els.score.innerText = score;
+                this.els.streak.innerText = streak;
+                this.els.best.innerText = best;
+                this.els.chord.innerText = targetChord;
+            }
+            updateCurrentNote(note){
+
+    this.els.currentNote.innerText = note || "--";
+
+}
+
+showBubble(text){
+
+    this.els.bubble.innerText = text;
+
+    const bubble = this.els.bubble;
+
+    bubble.style.display = "block";
+
+    bubble.style.animation =
+        "bubbleIn .25s ease-out forwards, bubbleHover 2s ease-in-out .25s infinite";
+
+}
+
+hideBubble(){
+
+    const bubble = this.els.bubble;
+
+    bubble.style.animation = "bubbleOut .25s ease forwards";
+
+    bubble.addEventListener("animationend", function handler(){
+
+        bubble.style.display = "none";
+
+        bubble.removeEventListener("animationend", handler);
+
+    });
+
+}
+            blurCharacter(fade){
+
+    const amount = fade ? "blur(5px) brightness(.65)" : "none";
+
+    document.getElementById("background-canvas").style.filter = amount;
+
+    document.getElementById("game-container").style.filter = amount;
+
+    document.getElementById("ui-layer").style.filter = amount;
+
+    document.getElementById("visualizer-canvas").style.filter = amount;
+
+    document.getElementById("listener-ui").style.filter = amount;
+
+    document.getElementById("current-note-container").style.filter = amount;
+
+}
+            showReward(type, sprite, scoreVal) {
+                const img = this.els.rewardImg;
+                const title = this.els.rewardTitle;
+                const info = this.els.rewardInfo;
+
+                img.src = sprite;
+                img.className = ''; 
+                this.els.rewardOverlay.style.opacity = 1;
+                title.classList.remove('anim-title');
+                void title.offsetWidth;
+                title.classList.add('anim-title');
+                img.className = "";
+                void img.offsetWidth;
+                img.classList.add('anim-pop');
+                setTimeout(() => { img.classList.add('anim-float'); }, 400);
+
+                if (type === 'COMMON CATCH') { title.style.color = '#ff8c42'; info.innerText = `Common Fish (+${scoreVal})`; }
+                if (type === 'RARE CATCH') { title.style.color = '#64c8ff'; img.classList.add('glow-rare'); info.innerText = `Rare Fish (+${scoreVal})`; }
+                if (type === 'TREASURE FOUND') { title.style.color = '#ffd700'; img.classList.add('glow-treasure'); info.innerText = `Treasure! (+${scoreVal})`; }
+                if (type === 'TRASH') { title.style.color = '#a0a5a9'; img.classList.add('anim-wobble'); info.innerText = `Trash (+${scoreVal})`; }
+                
+                title.innerText = type;
+            }
+            hideReward(){
+
+    const overlay = this.els.rewardOverlay;
+
+    overlay.style.opacity = 0;
+
+    setTimeout(()=>{
+
+        this.els.rewardImg.src = "";
+        this.els.rewardImg.className = "";
+
+        this.els.rewardTitle.innerText = "";
+        this.els.rewardInfo.innerText = "";
+
+    },300);
+
+}
+
+drawVisualizer(ctx, data, breathingTime){
+
+    ctx.clearRect(0,0,300,40);
+
+    const bars = 21;
+    const barWidth = 3;
+    const spacing = 5;
+
+    const totalWidth =
+        bars * barWidth + (bars-1) * spacing;
+
+    const startX = (300-totalWidth)/2;
+
+    const center = Math.floor(bars/2);
+
+    const idle =
+        0.5 + Math.sin(breathingTime*2) * 0.5;
+
+    for(let i=0;i<bars;i++){
+
+        const distance = Math.abs(i-center);
+
+        const shape = Math.exp(-distance * 0.28);
+
+        const audio =
+            Math.pow((data[i] || 0) / 255, 0.6);
+
+        const idleHeight =
+            shape * (1 + idle);
+
+        const audioHeight =
+            shape * audio * 38;
+
+        const height =
+            Math.max(1, idleHeight + audioHeight);
+
+        ctx.fillStyle = "#FFA545";
+
+        ctx.fillRect(
+            startX + i*(barWidth+spacing),
+            20-height/2,
+            barWidth,
+            height
+        );
+    }
+}
+
+
+        }
+
+        class AnimationManager {
+            constructor(canvasId, assets) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext('2d');
+                this.assets = assets;
+                this.currentState = null;
+                this.frameIndex = 0;
+                this.lastFrameTime = 0;
+                this.fps = 10;
+                this.onComplete = null;
+            }
+            play(stateName, onComplete = null) {
+                if (this.currentState === stateName) return;
+                this.currentState = stateName;
+                this.frameIndex = 0;
+                this.lastFrameTime = performance.now();
+                this.onComplete = onComplete;
+            }
+            update(time) {
+                if (!this.currentState || !this.assets[this.currentState]) return;
+                
+                const anim = this.assets[this.currentState];
+                if (!anim.img.complete || anim.img.naturalWidth === 0) return; 
+                let frameDuration = 1000 / this.fps;
+
+if (
+    !anim.loop &&
+    this.frameIndex >= anim.frames - 3
+) {
+    frameDuration *= 1.5;
+}
+                
+                if (time - this.lastFrameTime > frameDuration) {
+                    this.frameIndex++;
+                    this.lastFrameTime = time;
+
+                    if (this.frameIndex >= anim.frames) {
+                        if (anim.loop) {
+                            this.frameIndex = 0;
+                        } else {
+                            this.frameIndex = anim.frames - 1; 
+                            if (this.onComplete) {
+                                const cb = this.onComplete;
+                                this.onComplete = null;
+                                cb();
+                            }
+                        }
+                    }
+                }
+                
+                const frameW = anim.img.width / anim.frames;
+                const frameH = anim.img.height;
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                this.ctx.imageSmoothingEnabled = false;
+                this.ctx.drawImage(
+                    anim.img, 
+                    this.frameIndex * frameW, 0, frameW, frameH,
+                    -0, -0, this.canvas.width - 40, this.canvas.height - 40
+                );
+            }
+        }
+
+        class BackgroundAnimator{
+
+    constructor(){
+
+        this.canvas = document.getElementById("background-canvas");
+        this.ctx = this.canvas.getContext("2d");
+
+        this.img = new Image();
+        this.img.src = "frame_sheet.png";
+
+        this.frames = 10;
+        this.frame = 0;
+        this.lastFrame = 0;
+        this.fps = 5;
+
+    }
+
+    update(time){
+
+        if(!this.img.complete) return;
+
+        if(time - this.lastFrame > 1000/this.fps){
+
+            this.frame = (this.frame + 1) % this.frames;
+            this.lastFrame = time;
+
+        }
+
+        const frameW = this.img.width / this.frames;
+        const frameH = this.img.height;
+
+        this.canvas.width = window.innerWidth;
+this.canvas.height = window.innerHeight;
+
+this.ctx.fillStyle = "#000";
+this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+
+        this.ctx.imageSmoothingEnabled = false;
+
+        const drawW = 492;
+        const drawH = 1000;
+
+const x = (this.canvas.width - drawW) / 2;
+const y = (this.canvas.height - drawH) / 2;
+
+this.ctx.drawImage(
+
+    this.img,
+
+    this.frame * frameW,
+    0,
+    frameW,
+    frameH,
+
+    x,
+    y,
+    drawW,
+    drawH
+
+);
+
+    }
+
+}
+
+        const NOTE_FREQ = {
+
+    "C":[32.70,65.41,130.81,261.63,523.25],
+
+    "C#":[34.65,69.30,138.59,277.18,554.37],
+
+    "D":[36.71,73.42,146.83,293.66,587.33],
+
+    "D#":[38.89,77.78,155.56,311.13,622.25],
+
+    "E":[41.20,82.41,164.81,329.63,659.25],
+
+    "F":[43.65,87.31,174.61,349.23,698.46],
+
+    "F#":[46.25,92.50,185.00,369.99,739.99],
+
+    "G":[49.00,98.00,196.00,392.00,783.99],
+
+    "G#":[51.91,103.83,207.65,415.30,830.61],
+
+    "A":[55.00,110.00,220.00,440.00,880.00],
+
+    "A#":[58.27,116.54,233.08,466.16,932.33],
+
+    "B":[61.74,123.47,246.94,493.88,987.77]
+
+};
+
+const NOTE_TOLERANCE = 30;
+
+        class NoteRecognizer{
+
+    constructor(audioManager){
+
+        this.audio = audioManager;
+
+        this.inputThreshold = 0.015;
+
+        this.freqHistory = [];
+
+        this.HISTORY_SIZE = 10;
+
+        this.lastDetected = null;
+
+        this.currentStableNote = null;
+
+        this.lastNoteTime = performance.now();
+
+this.memoryTimeout = 250;
+
+this.noteHoldTime = 0;
+
+this.requiredHoldTime = 700;
+
+this.lastUpdate = performance.now();
+
+    }
+
+    getCurrentNote(){
+
+    return this.lastDetected || null;
+
+    }
+
+    detect(){
+
+        const buffer = this.audio.getTimeDomainData();
+
+        const freq = this.detectPitch(
+    buffer,
+    this.audio.ctx.sampleRate
+);
+
+if(!freq)
+    return null;
+
+if(freq < 75 || freq > 500)
+    return null;
+
+            const detectedFreq = freq;
+
+        if(detectedFreq < 70 || detectedFreq > 1200)
+    return null;
+
+        this.freqHistory.push(detectedFreq);
+
+        if(this.freqHistory.length > this.HISTORY_SIZE)
+            this.freqHistory.shift();
+
+        if(this.freqHistory.length < this.HISTORY_SIZE)
+            return null;
+
+        const sorted=[...this.freqHistory].sort((a,b)=>a-b);
+
+        const stableFreq=sorted[Math.floor(sorted.length/2)];
+
+        const note = this.frequencyToNote(stableFreq);
+
+        this.lastDetected = note;
+
+        const now = performance.now();
+
+if(note === null){
+
+    if(now - this.lastNoteTime > this.memoryTimeout){
+
+        this.currentStableNote = null;
+        this.noteHoldTime = 0;
+        this.freqHistory.length = 0;
+
+    }
+
+    return null;
+
+}
+
+this.lastNoteTime = now;
+this.freqHistory.length = 0;
+
+const delta = now - this.lastUpdate;
+
+this.lastUpdate = now;
+
+if(note === this.currentStableNote){
+
+    this.noteHoldTime += delta;
+
+}else{
+
+    this.currentStableNote = note;
+
+    this.noteHoldTime = 0;
+
+}
+
+if(this.noteHoldTime < this.requiredHoldTime){
+
+    return null;
+
+}
+
+this.noteHoldTime = 0;
+
+return{
+
+    frequency: stableFreq,
+
+    note: note
+
+};
+
+    }
+
+    detectPitch(buf,sampleRate){
+
+        let rms=0;
+
+        for(let i=0;i<buf.length;i++)
+            rms+=buf[i]*buf[i];
+
+        rms=Math.sqrt(rms/buf.length);
+
+        if(rms < this.inputThreshold)
+    return null;
+
+        const MIN_OFFSET=50;
+
+        const MAX_OFFSET=2200;
+
+        let bestOffset=-1;
+
+        let bestCorr=0;
+
+        for(let offset=MIN_OFFSET;offset<=MAX_OFFSET;offset++){
+
+            let corr=0;
+
+            for(let i=0;i<buf.length-offset;i++){
+
+                corr+=buf[i]*buf[i+offset];
+
+            }
+
+            if(corr>bestCorr){
+
+                bestCorr=corr;
+
+                bestOffset=offset;
+
+            }
+
+        }
+
+        if(bestOffset < 0)
+    return null;
+
+if(bestCorr < 0)
+    return null;
+
+return sampleRate / bestOffset;
+
+    }
+
+    frequencyToNote(freq){
+
+    let bestNote = null;
+    let bestError = Infinity;
+
+    for(const note in NOTE_FREQ){
+
+        for(const ref of NOTE_FREQ[note]){
+
+            const error = Math.abs(freq - ref);
+
+            if(error < bestError){
+
+                bestError = error;
+                bestNote = note;
+
+            }
+
+        }
+
+    }
+
+    if(bestError > NOTE_TOLERANCE)
+        return null;
+
+    return bestNote;
+
+}
+
+}
+
+        class GameManager {
+            constructor() {
+                this.assets = new AssetLoader();
+                this.audio = new AudioManager();
+                this.ui = new UIManager();
+                
+                this.score = 0;
+                this.streak = 0;
+                this.bestScore = parseInt(localStorage.getItem("bestScore")) || 0;
+                this.targetChord = NOTES[0];
+                
+                this.animator = null;
+                this.recognizer = null;
+
+                this.isListening = true;
+
+this.listenButton =
+    document.getElementById("listen-toggle");
+
+this.listenState =
+    document.getElementById("listener-state");
+                
+                this.isProcessingCatch = false;
+                this.breathingTime = 0;
+                this.warningCount = 0;
+
+                this.holdMessages = [
+    "Hold it!",
+    "Keep playing!",
+    "Almost there!",
+    "Perfect!",
+    "Steady...",
+    "Don't stop!",
+    "Nice!",
+    "Just a bit longer!",
+    "You've got it!",
+    "Keep that note!"
+];
+
+this.currentBubble = "";
+                
+                this.visCtx = document.getElementById('visualizer-canvas').getContext('2d');
+            }
+
+            async init() {
+                await this.assets.loadAll();
+                this.animator = new AnimationManager('game-canvas', this.assets.images);
+                this.background = new BackgroundAnimator();
+                this.recognizer = new NoteRecognizer(this.audio);
+
+                const sensitivitySlider =
+    document.getElementById("sensitivity-slider");
+
+const sensitivityValue =
+    document.getElementById("sensitivity-value");
+
+sensitivitySlider.addEventListener("input", () => {
+
+    const value =
+        Number(sensitivitySlider.value) / 1000;
+
+    this.recognizer.inputThreshold = value;
+
+    sensitivityValue.innerText =
+        sensitivitySlider.value == 15
+            ? "DEFAULT"
+            : value.toFixed(3);
+
+});         
+                this.nextNote();
+                this.animator.play('common_idle');
+                this.ui.updateStats(this.score, this.streak, this.bestScore, this.targetChord);
+                
+                requestAnimationFrame((t) => this.loop(t));
+
+this.listenButton.addEventListener("click",()=>{
+
+    this.isListening = !this.isListening;
+
+    if(this.isListening){
+
+        document.getElementById("listen-icon").className =
+            "fa-solid fa-pause";
+
+        document.getElementById("listen-label").textContent =
+            "Stop Listening";
+
+        this.listenState.innerText =
+            "We're listening...";
+
+    }else{
+
+        document.getElementById("listen-icon").className =
+            "fa-solid fa-play";
+
+        document.getElementById("listen-label").textContent =
+            "Start Listening";
+
+        this.listenState.innerText =
+            "Listening paused.";
+
+        this.ui.updateCurrentNote("--");
+
+        this.currentBubble = "";
+
+        this.ui.hideBubble();
+
+    }
+
+});
+            }
+
+            nextNote(){
+
+    let next;
+
+    do{
+
+        next = NOTES[
+            Math.floor(Math.random()*NOTES.length)
+        ];
+
+    }while(next===this.targetChord);
+
+    this.targetChord = next;
+
+    this.ui.updateStats(
+        this.score,
+        this.streak,
+        this.bestScore,
+        this.targetChord
+    );
+
+}
+
+            handleDetectionResult(result) {
+                if (this.isProcessingCatch) return;
+                this.isProcessingCatch = true;
+
+                const isRareMode = this.streak >= 5;
+
+                if (result === 'CORRECT') {
+
+                    this.currentBubble = "";
+
+                    this.ui.hideBubble();
+
+                    this.warningCount = 0;
+
+                    this.audio.playSound('reel');
+
+                    this.streak++;
+                    if (this.score + this.streak > this.bestScore) {
+                    this.bestScore = this.score + this.streak;
+                    localStorage.setItem("bestScore", this.bestScore);
+                }
+                    const isTreasure = Math.random() < 0.10;
+                    
+                    if (isTreasure) {
+                        this.processReward('treasure_pull', 'TREASURE FOUND', ASSETS.rewards.treasure, 50, 'treasure');
+                    } else if (isRareMode) {
+                        this.processReward('rare_pull', 'RARE CATCH', ASSETS.rewards.rare, 20, 'rare');
+                    } else {
+                        this.processReward('common_pull', 'COMMON CATCH', ASSETS.rewards.common, 10, 'reel');
+                    }
+                } else{
+
+    this.warningCount++;
+
+    if(this.warningCount < 3){
+
+        this.audio.playSound("trash");
+
+        console.log(
+            "Warning",
+            this.warningCount,
+            "/3"
+        );
+
+        this.isProcessingCatch=false;
+
+        return;
+
+    }
+
+    this.warningCount=0;
+
+    this.audio.playSound("trash");
+ 
+    this.streak=0;
+
+    this.currentBubble = "";
+
+this.ui.hideBubble();
+
+    this.processReward(
+        "trash_pull",
+        "TRASH",
+        ASSETS.rewards.trash,
+        0,
+        "trash"
+    );
+
+}
+                
+                this.ui.updateStats(this.score, this.streak, this.bestScore, this.targetChord);
+            }
+
+            processReward(animState, title, spriteList, scoreVal, sfxType) {
+
+                this.animator.play(animState, () => {
+
+                    this.score += scoreVal;
+                    this.ui.updateStats(this.score, this.streak, this.bestScore, this.targetChord);
+                    
+                    this.audio.playSound(sfxType);
+                    this.ui.blurCharacter(true);
+                    
+                    const sprite = spriteList[Math.floor(Math.random() * spriteList.length)];
+                    this.ui.showReward(title, sprite, scoreVal);
+                    
+                    setTimeout(() => {
+                        this.ui.hideReward();
+                        this.ui.blurCharacter(false);
+                        this.currentBubble = "";
+                        this.ui.hideBubble();
+                        this.nextNote();
+                        this.animator.play(this.streak >= 5 ? 'rare_idle' : 'common_idle');
+                        this.isProcessingCatch = false;
+                        this.warningCount = 0;
+                    }, 3000);
+                });
+            }
+
+            loop(time) {
+                const dt = time - (this.lastTime || time);
+                this.lastTime = time;
+                this.breathingTime += dt * 0.002;
+
+                this.background.update(time);
+                this.animator.update(time);
+                this.ui.drawVisualizer(this.visCtx, this.audio.getVolumeData(), this.breathingTime);
+
+                if (!this.isProcessingCatch && this.isListening) {
+
+    const detected = this.recognizer.detect();
+
+    this.ui.updateCurrentNote(
+        this.recognizer.getCurrentNote()
+    );
+
+    const current = this.recognizer.getCurrentNote();
+
+    if(current && current === this.targetChord){
+
+        if(!this.currentBubble){
+
+            this.currentBubble =
+                this.holdMessages[
+                    Math.floor(Math.random()*this.holdMessages.length)
+                ];
+
+        }
+
+        this.ui.showBubble(this.currentBubble);
+
+    }else{
+
+        this.currentBubble = "";
+
+        this.ui.hideBubble();
+
+    }
+
+    if(detected){
+
+        console.clear();
+
+        console.log(detected);
+
+        console.log("Target:", this.targetChord);
+
+        if(detected.note === this.targetChord){
+
+            this.handleDetectionResult("CORRECT");
+
+        }else{
+
+            this.handleDetectionResult("WRONG");
+
+        }
+
+    }
+
+}
+
+                requestAnimationFrame((t) => this.loop(t));
+            }
+        }
+
+        const startScreen = document.getElementById('start-screen');
+        const startButton = document.getElementById('start-game-button');
+        const sensitivitySlider = document.getElementById('sensitivity-slider');
+        const sensitivityValue = document.getElementById('sensitivity-value');
+
+        startButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            startButton.disabled = true;
+            startButton.textContent = 'STARTING...';
+
+            try {
+
+    const game = new GameManager();
+
+    const threshold =
+        Number(sensitivitySlider.value) / 1000;
+
+    await game.audio.initialize();
+
+    await game.init();
+
+    game.recognizer.inputThreshold =
+        threshold;
+
+    startScreen.style.display = 'none';
+
+} catch (err) {
+
+    console.error(
+        'Unable to start Note Fishing:',
+        err
+    );
+
+    startButton.disabled = false;
+
+    startButton.textContent =
+        'START FISHING';
+
+    document.getElementById('mic-status').textContent =
+        'MICROPHONE ACCESS FAILED';
+
+}
+        });
+
+        sensitivitySlider.addEventListener('input', () => {
+            const value = Number(sensitivitySlider.value);
+            sensitivityValue.textContent =
+                value === 15 ? 'DEFAULT' : (value / 1000).toFixed(3);
+        });
+    </script>
+</body>
+</html>
