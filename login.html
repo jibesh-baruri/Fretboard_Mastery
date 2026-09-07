@@ -374,33 +374,21 @@
 </head>
 <body>
 
-
 <script>
 function redirectAfterLogin() {
-    const target =
-        sessionStorage.getItem('loginRedirectTarget') ||
-        localStorage.getItem('redirectAfterLogin') ||
-        'index.html';
+    const params = new URLSearchParams(window.location.search);
+    const cameFromCommunity =
+        params.get('redirect') === 'community' ||
+        params.get('from') === 'community' ||
+        /community\.html(?:$|[?#])/i.test(document.referrer);
 
-    sessionStorage.removeItem('loginRedirectTarget');
-    localStorage.removeItem('redirectAfterLogin');
-    window.location.href = target;
+    window.location.href = cameFromCommunity ? 'community.html' : 'index.html';
 }
 </script>
 
-<script>
-(function () {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('redirect') === 'community') {
-        sessionStorage.setItem('loginRedirectTarget', 'community.html');
-    } else if (!sessionStorage.getItem('loginRedirectTarget')) {
-        sessionStorage.setItem('loginRedirectTarget', 'index.html');
-    }
-})();
-</script>
 
 
-    <header>
+<header>
         <div class="container navbar">
             <div class="brand">
                 <img id="logoImg" src="logo.png" alt="Fretboard Mastery Logo"> <span class="brand-name">Fretboard Mastery</span>
