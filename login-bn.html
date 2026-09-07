@@ -488,7 +488,9 @@
 <script>
 const loginParams = new URLSearchParams(window.location.search);
 const loginRedirectTarget =
-    loginParams.get('redirect') === 'community'
+    loginParams.get('redirect') === 'community' ||
+    loginParams.get('from') === 'community' ||
+    /community\.html(?:$|[?#])/i.test(document.referrer)
         ? 'community.html'
         : 'index.html';
 </script>
