@@ -388,7 +388,7 @@ h1 {
     --reaction-padding-y: 4px;
     --reaction-padding-x: 7px;
     --reaction-font-size: 10px;
-    --reaction-gap: 4px;
+    --reaction-gap: 5px;
 }
 
 .reactions {
@@ -945,7 +945,7 @@ footer { position:relative; z-index:1; }
 :root {
     --member-count-size: 13px;
 
-    --member-label-size: 10px;
+    --member-label-size: 11px;
 
     --admin-message-size: 13px;
 
@@ -1127,7 +1127,7 @@ footer {
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>কোম্পানি</h4>
+                    <h4>আমাদের সম্পর্কে</h4>
                     <ul>
                         <li><a href="about-bn.html">আমাদের সম্পর্কে জানুন</a></li>
                         <li><a href="index-bn.html">Home</a></li>
@@ -1147,7 +1147,6 @@ footer {
             </div>
         </div>
     </footer>
-
 
 </main>
 
@@ -1180,10 +1179,13 @@ auth.onAuthStateChanged(user => {
     window.logged = !!user;
     setCommunityVisibility(!!user);
 
-    if (user && !localStorage.getItem('fmCommunityJoined')) {
-        const current = Number(localStorage.getItem('fmCommunityCount')) || (Math.floor(Math.random() * 361) + 4120);
-        localStorage.setItem('fmCommunityCount', current + 1);
-        localStorage.setItem('fmCommunityJoined', '1');
+    if (user && !sessionStorage.getItem('fmCommunityJoined')) {
+        const current = Number(localStorage.getItem('fmCommunityCount')) || (Math.floor(Math.random() * 2001) + 4000);
+        const updated = current + 1;
+        count = updated;
+        localStorage.setItem('fmCommunityCount', updated);
+        sessionStorage.setItem('fmCommunityJoined', '1');
+        updateMemberDisplays();
     }
 });
 
@@ -1199,7 +1201,7 @@ const UPDATE_KEY = 'fmCommunityLastUpdate';
 
 let count =
     Number(localStorage.getItem(CK)) ||
-    (Math.floor(Math.random() * 361) + 4120);
+    (Math.floor(Math.random() * 2001) + 4000);
 
 localStorage.setItem(CK, count);
 
@@ -1267,31 +1269,26 @@ function updateMemberDisplays() {
 function changeMemberCount() {
 
     const randomChange =
-        Math.floor(Math.random() * 6) + 1;
-
+        Math.floor(Math.random() * 25) + 1;
 
     const direction =
-        Math.random() < 0.85
+        Math.random() < 0.72
             ? 1
             : -1;
 
-
     count += randomChange * direction;
 
-    count = Math.max(4000, count);
-
+    count = Math.min(6000, Math.max(4000, count));
 
     localStorage.setItem(
         CK,
         count
     );
 
-
     localStorage.setItem(
         UPDATE_KEY,
         Date.now()
     );
-
 
     updateMemberDisplays();
 
@@ -1309,7 +1306,7 @@ function checkMemberUpdate() {
 
 
     const TWO_MINUTES =
-        2 * 60 * 1000;
+        60 * 1000;
 
 
     if (
@@ -1450,7 +1447,7 @@ handleScroll();
         const posted = new Date(postedAt);
         const now = new Date();
 
-        if (Number.isNaN(posted.getTime())) return 'Just now';
+        if (Number.isNaN(posted.getTime())) return 'এইমাত্র';
 
         const diffMs = Math.max(0, now - posted);
         const minutes = Math.floor(diffMs / 60000);
@@ -1526,5 +1523,21 @@ document.addEventListener('touchend', function (e) {
     lastTouchEnd = now;
 }, { passive: false });
 </script>
+
+<script>
+window.addEventListener('pageshow', function () {
+    if (performance.getEntriesByType('navigation')[0]?.type === 'back_forward') {
+        window.location.reload();
+    }
+});
+
+document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) {
+        const navigation = performance.getEntriesByType('navigation')[0];
+        if (navigation?.type === 'back_forward') window.location.reload();
+    }
+});
+</script>
+
 </body>
 </html>
