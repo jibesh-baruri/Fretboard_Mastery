@@ -388,7 +388,7 @@ h1 {
     --reaction-padding-y: 4px;
     --reaction-padding-x: 7px;
     --reaction-font-size: 10px;
-    --reaction-gap: 4px;
+    --reaction-gap: 5px;
 }
 
 .reactions {
@@ -556,35 +556,56 @@ h1 {
 .gate .members {
     white-space:normal;
 }
-        footer {
-            background-color: var(--bg-white);
-            border-top: 1px solid var(--border);
-            padding: 50px 0 20px;
-        }
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        .footer-col h4 { margin-bottom: 20px; font-size: 1.1rem; }
-        .footer-col ul li { margin-bottom: 10px; }
-        .footer-col ul li a { color: var(--text-light); transition: var(--transition); }
-        .footer-col ul li a:hover { color: var(--text-main); text-decoration: underline; }
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
-            color: var(--text-light);
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .social-icons { display: flex; gap: 15px; }
-        .social-icons a { color: var(--text-main); font-size: 1.2rem; transition: var(--transition); }
-        .social-icons a:hover { color: #000; }
+
+footer {
+    background-color: var(--bg-white);
+    border-top: 1px solid var(--border);
+    padding: 50px 0 20px;
+}
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+.footer-col h4 {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+.footer-col ul li {
+    margin-bottom: 10px;
+}
+.footer-col ul li a {
+    color: var(--text-light);
+    transition: var(--transition);
+}
+.footer-col ul li a:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--text-light);
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+.social-icons a {
+    color: var(--text-main);
+    font-size: 1.2rem;
+    transition: var(--transition);
+}
+.social-icons a:hover {
+    color: var(--primary);
+}
 @media(max-width:768px){
     footer { padding-bottom: 80px; }
     .footer-bottom { gap:18px; justify-content:center; }
@@ -1100,7 +1121,7 @@ footer {
                 <div class="footer-col">
                     <h4>Learn</h4>
                     <ul>
-                        <li><a href="index.html">All Courses</a></li>
+                        <li><a href="#courses">All Courses</a></li>
                         <li><a href="#courses">Beginner's Guide</a></li>
                         <li><a href="#courses">Theory</a></li>
                     </ul>
@@ -1109,7 +1130,7 @@ footer {
                     <h4>Company</h4>
                     <ul>
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="community.html">Community</a></li>
+                        <li><a href="about.html">About Us</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
@@ -1159,10 +1180,13 @@ auth.onAuthStateChanged(user => {
     window.logged = !!user;
     setCommunityVisibility(!!user);
 
-    if (user && !localStorage.getItem('fmCommunityJoined')) {
+    if (user && !sessionStorage.getItem('fmCommunityJoined')) {
         const current = Number(localStorage.getItem('fmCommunityCount')) || (Math.floor(Math.random() * 361) + 4120);
-        localStorage.setItem('fmCommunityCount', current + 1);
-        localStorage.setItem('fmCommunityJoined', '1');
+        const updated = current + 1;
+        count = updated;
+        localStorage.setItem('fmCommunityCount', updated);
+        sessionStorage.setItem('fmCommunityJoined', '1');
+        updateMemberDisplays();
     }
 });
 
@@ -1288,7 +1312,7 @@ function checkMemberUpdate() {
 
 
     const TWO_MINUTES =
-        2 * 60 * 1000;
+        60 * 1000;
 
 
     if (
@@ -1505,5 +1529,21 @@ document.addEventListener('touchend', function (e) {
     lastTouchEnd = now;
 }, { passive: false });
 </script>
+
+<script>
+window.addEventListener('pageshow', function () {
+    if (performance.getEntriesByType('navigation')[0]?.type === 'back_forward') {
+        window.location.reload();
+    }
+});
+
+document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) {
+        const navigation = performance.getEntriesByType('navigation')[0];
+        if (navigation?.type === 'back_forward') window.location.reload();
+    }
+});
+</script>
+
 </body>
 </html>
