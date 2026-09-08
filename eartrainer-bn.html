@@ -8,6 +8,7 @@
 <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
 <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap)" 
 rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
     :root {
@@ -228,6 +229,55 @@ rel="stylesheet">
         .container { padding: 1.5rem; }
         .card:hover { transform: translateY(-4px); }
     }
+
+    .card-header {
+        gap: 10px;
+    }
+
+    .card-header .level-badge {
+        margin-left: auto;
+    }
+
+    .card-lock {
+        font-size: 0.9rem;
+        color: var(--c-accent);
+        flex-shrink: 0;
+    }
+
+    .login-popup {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(0.96);
+        width: min(360px, calc(100% - 40px));
+        padding: 24px;
+        border-radius: 16px;
+        background: var(--c-surface);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        color: var(--c-text-primary);
+        text-align: center;
+        z-index: 10000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .login-popup.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .login-popup h3 {
+        margin: 0 0 10px;
+    }
+
+    .login-popup p {
+        margin: 0;
+        color: var(--c-text-secondary);
+    }
+
 </style>
 </head> 
 <div class="page-bg"></div>
@@ -268,7 +318,7 @@ rel="stylesheet">
 
         <a href="earsus2.html" class="card" data-sound="sus2">
             <div class="card-header">
-                <h2>Sus2</h2>
+                <h2>Sus2</h2><i class="fas fa-lock card-lock"></i>
                 <span class="level-badge">Intermediate</span>
             </div>
             <p>Delayed resolution-সহ open sound।</p>
@@ -276,7 +326,7 @@ rel="stylesheet">
 
         <a href="earsus4.html" class="card" data-sound="sus4">
             <div class="card-header">
-                <h2>Sus4</h2>
+                <h2>Sus4</h2><i class="fas fa-lock card-lock"></i>
                 <span class="level-badge">Intermediate</span>
             </div>
             <p>Resolve হতে চায় এমন tension।</p>
@@ -284,7 +334,7 @@ rel="stylesheet">
 
         <a href="earmaj7.html" class="card" data-sound="maj7">
             <div class="card-header">
-                <h2>Major 7</h2>
+                <h2>Major 7</h2><i class="fas fa-lock card-lock"></i>
                 <span class="level-badge">Intermediate</span>
             </div>
             <p>Smooth ও jazzy harmonic color।</p>
@@ -292,7 +342,7 @@ rel="stylesheet">
 
         <a href="earm7.html" class="card" data-sound="m7">
             <div class="card-header">
-                <h2>Minor 7</h2>
+                <h2>Minor 7</h2><i class="fas fa-lock card-lock"></i>
                 <span class="level-badge">Intermediate</span>
             </div>
             <p>Subtle tension-সহ warm tone।</p>
@@ -300,7 +350,7 @@ rel="stylesheet">
 
         <a href="eardom7.html" class="card" data-sound="dom7">
             <div class="card-header">
-                <h2>Dominant 7</h2>
+                <h2>Dominant 7</h2><i class="fas fa-lock card-lock"></i>
                 <span class="level-badge">Advanced</span>
             </div>
             <p>Resolution-এর দিকে নিয়ে যায় এমন strong tension।</p>
@@ -308,7 +358,7 @@ rel="stylesheet">
 
         <a href="ear7sus4.html" class="card" data-sound="7sus4">
             <div class="card-header">
-                <h2>7sus4</h2>
+                <h2>7sus4</h2><i class="fas fa-lock card-lock"></i>
                 <span class="level-badge">Advanced</span>
             </div>
             <p>Release ছাড়া suspended tension।</p>
@@ -316,7 +366,7 @@ rel="stylesheet">
 
         <a href="earadd9.html" class="card" data-sound="add9">
             <div class="card-header">
-                <h2>Add9</h2>
+                <h2>Add9</h2><i class="fas fa-lock card-lock"></i>
                 <span class="level-badge">Advanced</span>
             </div>
             <p>ভারী না হয়ে আরও expanded color।</p>
@@ -324,7 +374,7 @@ rel="stylesheet">
 
         <a href="ear9.html" class="card" data-sound="9">
             <div class="card-header">
-                <h2>9</h2>
+                <h2>9</h2><i class="fas fa-lock card-lock"></i>
                 <span class="level-badge">Advanced</span>
             </div>
             <p>অতিরিক্ত tension-সহ extended harmony।</p>
@@ -332,7 +382,7 @@ rel="stylesheet">
 
         <a href="ear7up9.html" class="card" data-sound="7#9">
             <div class="card-header">
-                <h2>7♯9</h2>
+                <h2>7♯9</h2><i class="fas fa-lock card-lock"></i>
                 <span class="level-badge">Advanced</span>
             </div>
             <p>Aggressive ও tension-rich sound।</p>
@@ -341,12 +391,44 @@ rel="stylesheet">
     </div>
 </main>
 
+<div class="login-popup" id="loginPopup">
+    <h3>Login Required</h3>
+    <p>এই chord access করতে আপনাকে Log In করতে হবে।</p>
+</div>
+
+
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script>
+const firebaseConfig = {
+    apiKey: "AIzaSyADamV7cnVJtmEhzKcJOTfLvHXI49hNdso",
+    authDomain: "fretboard-mastery.firebaseapp.com",
+    projectId: "fretboard-mastery",
+    storageBucket: "fretboard-mastery.firebasestorage.app",
+    messagingSenderId: "102524815260",
+    appId: "1:102524815260:web:23ec49b3437ad232746a59"
+};
+
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const cards = document.querySelectorAll('.card');
         const container = document.getElementById('main-container');
         const body = document.body;
         let isLocked = false;
+        let loggedIn = false;
+        const loginPopup = document.getElementById('loginPopup');
+
+        firebase.auth().onAuthStateChanged((user) => {
+            loggedIn = !!user;
+            document.querySelectorAll('.card-lock').forEach(lock => {
+                lock.classList.toggle('fa-lock', !loggedIn);
+                lock.classList.toggle('fa-lock-open', loggedIn);
+            });
+        });
 
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         let audioCtx;
@@ -385,10 +467,24 @@ rel="stylesheet">
 
         const handleTransition = (e) => {
             e.preventDefault();
-            
+
+            const clickedCard = e.currentTarget;
+            const isFreeCard =
+                clickedCard.dataset.sound === 'major' ||
+                clickedCard.dataset.sound === 'minor' ||
+                clickedCard.dataset.sound === '5';
+
+            if (!isFreeCard && !loggedIn) {
+                loginPopup.classList.add('show');
+                clearTimeout(loginPopup.hideTimer);
+                loginPopup.hideTimer = setTimeout(() => {
+                    loginPopup.classList.remove('show');
+                }, 2200);
+                return;
+            }
+
             if (isLocked) return;
             isLocked = true;
-            const clickedCard = e.currentTarget;
             const targetUrl = clickedCard.href;
 
             try {
