@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beginner Guitar Test | Fretboard Mastery</title>
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+
+        :root {
+            --bg-base: #0f1115;
+            --bg-card: #1a1d24;
+            --bg-card-hover: #232730;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --primary: #f5a623;
+            --primary-hover: #e0931c;
+            --success: #10b981;
+            --danger: #ef4444;
+            --border: #2d313a;
+            --radius: 12px;
+            --shadow: 0 8px 30px rgba(0,0,0,0.4);
+            --font-sans: 'Inter', sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(26, 29, 36, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 5%;
+            height: 78px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        h1, h2, h3 { font-family: var(--font-display); margin-bottom: 1rem; }
+        h1 { font-size: 2.5rem; }
+       
+        :root {
+            --bg-color: #0f1115;
+            --surface-color: #1a1d24;
+            --surface-hover: #232730;
+            --primary: #d4af37;
+            --primary-hover: #f1c40f;
+            --text-main: #f0f0f0;
+            --text-muted: #8e95a5;
+            --danger: #e74c3c;
+            --success: #2ecc71;
+            --border: #2c313c;
+            --radius: 8px;
+            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .site-header {
+            background: rgba(26, 29, 36, 0.95);
+            border-bottom: 1px solid var(--border);
+            padding: 1.9rem .3rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .card {
+            background: var(--surface-color);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1, h2, h3 { font-weight: 600; margin-bottom: 1rem; }
+        .text-muted { color: var(--text-muted); }
+        .mb-2 { margin-bottom: 2rem; }
+
+        .btn {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .btn:hover { background: var(--surface-hover); }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        .view { display: none; }
+        .view.active { display: block; animation: fadeIn 0.4s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .timer {
+            font-variant-numeric: tabular-nums;
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(212, 175, 55, 0.1);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-text { font-size: 1.3rem; margin-bottom: 1.5rem; }
+        .question-media { margin-bottom: 2rem; text-align: center; }
+        .question-media svg { max-width: 100%; height: auto; background: #fff; border-radius: 4px; padding: 10px; }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .option-card {
+            background: var(--bg-color);
+            border: 2px solid var(--border);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        .option-card:hover:not(.disabled) { border-color: var(--primary); background: rgba(212, 175, 55, 0.05); }
+        .option-card.selected { border-color: var(--primary); background: rgba(212, 175, 55, 0.1); }
+        .option-card.disabled { cursor: default; opacity: 0.7; }
+
+        .quiz-footer { display: flex; justify-content: flex-end; }
+
+        .score-display { text-align: center; margin: 3rem 0; }
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 8px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0 auto 1.5rem;
+        }
+        .score-circle.pass { border-color: var(--success); color: var(--success); }
+        .score-circle.fail { border-color: var(--danger); color: var(--danger); }
+
+        .review-list { margin-top: 3rem; text-align: left; }
+        .review-item {
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--border);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+        .review-item.correct { border-left-color: var(--success); }
+        .review-item.incorrect { border-left-color: var(--danger); }
+        .review-explanation {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+        .history-table th, .history-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .badge {
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .badge.pass { background: rgba(46, 204, 113, 0.2); color: var(--success); }
+        .badge.fail { background: rgba(231, 76, 60, 0.2); color: var(--danger); }
+
+        #view-certificate { display: none; }
+
+        @media print {
+            body { background: #fff; -webkit-print-color-adjust: exact; }
+            .site-header, .container { display: none !important; }
+            #view-certificate {
+                display: flex !important;
+                position: absolute;
+                left: 0; top: 0;
+                width: 297mm;
+                height: 210mm;
+                background: #fff;
+                color: #000;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: 40px;
+            }
+            .cert-border {
+                border: 10px solid #1a1d24;
+                outline: 2px solid #d4af37;
+                outline-offset: -20px;
+                width: 100%; height: 100%;
+                padding: 50px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .cert-logo { font-family: var(--font-sans); font-size: 1.5rem; font-weight: 800; color: #1a1d24; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 2px;}
+            .cert-logo span { color: #d4af37; }
+            .cert-title { font-family: var(--font-serif); font-size: 3.5rem; color: #1a1d24; margin-bottom: 1rem; }
+            .cert-subtitle { font-size: 1.2rem; color: #555; margin-bottom: 3rem; }
+            .cert-name { font-family: var(--font-serif); font-size: 3rem; font-style: italic; color: #d4af37; border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 2rem; display: inline-block; min-width: 400px;}
+            .cert-details { display: flex; justify-content: space-between; margin-top: auto; padding-top: 3rem; border-top: 1px solid #ddd; font-size: 0.9rem; color: #666; }
+        }
+    
+        :root {
+            --bg-base: #f8f9fa;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f8f9fa;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --primary: #212529;
+            --primary-hover: #333333;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --border: #e9ecef;
+            --shadow: 0 4px 6px rgba(0,0,0,0.05);
+            --radius: 8px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-base: #121212;
+                --bg-card: #1e1e1e;
+                --bg-card-hover: #252525;
+                --text-main: #f8f9fa;
+                --text-muted: #8a8a8a;
+                --primary: #f8f9fa;
+                --primary-hover: #ffffff;
+                --border: #343a40;
+                --shadow: 0 6px 20px rgba(0,0,0,0.3);
+            }
+        }
+
+        html, body { background: var(--bg-base); color: var(--text-main); }
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+
+        .container { max-width: 1500px; margin: 0 auto; padding: 0 20px; }
+        .view { max-width: 800px; margin-left: auto; margin-right: auto; }
+
+        .site-header {
+            background-color: var(--bg-card);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.35s ease-in-out;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .site-header.hide { transform: translateY(-100%); }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .brand img { height: 20px; width: 15px;}
+        .brand-name { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; color: var(--text-main); }
+
+        .nav-links {
+            display:flex;
+            gap:25px;
+            align-items:center;
+        }
+        .nav-links a {
+            font-weight:500;
+            color:var(--text-main);
+            text-decoration:none;
+            transition:all .2s ease;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color:var(--text-main);
+            font-weight:900;
+        }
+        .nav-links .login {
+            padding:0;
+            border:none;
+            border-radius:0;
+        }
+
+        .hamburger {
+            display:none;
+            cursor:pointer;
+            font-size:1.5rem;
+            border:0;
+            background:transparent;
+            color:var(--text-main);
+        }
+        .hamburger i {
+            transition:transform .3s ease, opacity .2s ease;
+        }
+        .hamburger.active i { transform:rotate(90deg); }
+        .hamburger.active i::before { content:"\f00d"; }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+        .btn:hover { background: var(--bg-card-hover); }
+        .btn-primary {
+            background: var(--primary);
+            color: var(--bg-card);
+            border-color: var(--primary);
+        }
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
+            color: var(--bg-card);
+        }
+
+        .timer { color: var(--text-main); background: rgba(128,128,128,0.1); }
+        .progress-bar { background: var(--border); }
+        .progress-fill { background: var(--primary); }
+
+        .option-card {
+            background: var(--bg-base);
+            border-color: var(--border);
+            color: var(--text-main);
+        }
+        .option-card:hover:not(.disabled),
+        .option-card.selected {
+            border-color: var(--primary);
+            background: rgba(128,128,128,0.08);
+        }
+
+        footer {
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 50px 0 20px;
+            margin-top: 80px;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-col h4 { margin-bottom: 20px; font-size: 1.1rem; }
+        .footer-col p { color: var(--text-muted); font-size: 0.9rem; max-width: 560px; }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .footer-col ul li a:hover { color: var(--text-main); text-decoration: underline; }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .social-icons { display: flex; gap: 15px; }
+        .social-icons a { color: var(--text-main); font-size: 1.2rem; transition: all 0.3s ease; }
+        .social-icons a:hover { opacity: 0.65; }
+
+        @media (max-width: 768px) {
+            .container { padding-left: 16px; padding-right: 16px; }
+            .nav-links {
+                position:absolute;
+                top:80px;
+                left:0;
+                right:0;
+                background-color:var(--bg-card);
+                backdrop-filter:blur(10px);
+                -webkit-backdrop-filter:blur(10px);
+                opacity:1;
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                gap:20px;
+                padding:20px 0;
+                border-bottom:1px solid var(--border);
+                box-shadow:0 10px 20px rgba(0,0,0,.25);
+                transform:translateY(-150%);
+                transition:transform .35s ease-in-out;
+                z-index:2000;
+            }
+            .nav-links.active {
+                transform:translateY(0);
+                box-shadow:0 10px 10px rgba(0,0,0,.1);
+            }
+            .nav-links li, .nav-links a { width: 100%; }
+            .nav-links a { display:block; padding:2px; text-align:center; }
+            .hamburger { display:block; }
+            .footer-content { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; align-items: flex-start; }
+        }    
+
+        #view-certificate {
+            display: block;
+            position: fixed;
+            left: -10000px;
+            top: 0;
+            width: 1100px;
+            background: #f3f3f3;
+            padding: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        #view-certificate .certificate {
+            background: #ffffff;
+            width: 100%;
+            aspect-ratio: 297 / 210;
+            border: 2px solid #222;
+            position: relative;
+            overflow: hidden;
+            padding: 7.5% 9%;
+            text-align: center;
+            color: #333333;
+            font-family: Inter, sans-serif;
+        }
+
+        #view-certificate .certificate::before {
+            content: "";
+            position: absolute;
+            inset: 15px;
+            border: 13px solid #f7f0d2;
+            pointer-events: none;
+        }
+
+        #view-certificate .certificate-inner {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #view-certificate .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 2px;
+            margin-bottom: 18px;
+        }
+
+        #view-certificate .brand img {
+            width: 12px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        #view-certificate .brand-name {
+            font-size: 1.55rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #333;
+        }
+
+        #view-certificate .title {
+            font-family: 'Old English Text MT', serif;
+            font-size: clamp(4.1rem, 6.7vw, 6.35rem);
+            line-height: 1.05;
+            margin: 8px 0 12px;
+            color:  #D49A05;
+        }
+
+        #view-certificate .presented {
+            font-size: clamp(.78rem, 1.3vw, 1rem);
+            letter-spacing: .13em;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 13px;
+        }
+
+        #view-certificate .name {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(3rem, 5vw, 4.8rem);
+            color: #222;
+            border-bottom: 1px solid #444;
+            min-width: 46%;
+            padding: 0 20px 8px;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        #view-certificate .achievement {
+            font-size: clamp(.9rem, 1.45vw, 1.12rem);
+            color: #555;
+            margin-top: 2px;
+        }
+
+        #view-certificate .course {
+            margin-top: 8px;
+            font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+            font-weight: 600;
+            color: #222;
+        }
+
+        #view-certificate .bottom-row {
+            width: 100%;
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 4.5% 4px;
+        }
+
+        #view-certificate .date-block {
+            text-align: left;
+            min-width: 170px;
+        }
+
+        #view-certificate .date {
+            border-bottom: 1px solid #444;
+            padding-bottom: 7px;
+            font-size: 1rem;
+            color: #222;
+        }
+
+        #view-certificate .date-label {
+            margin-top: 7px;
+            color: #666;
+            font-size: .82rem;
+        }
+
+        #view-certificate .seal-image {
+            width: 105px;
+            height: 105px;
+            object-fit: contain;
+            margin: 0 20px;
+        }
+
+        #view-certificate .signature-block {
+            width: 180px;
+            text-align: center;
+        }
+
+        #view-certificate .signature-image {
+            display: block;
+            width: 150px;
+            height: 45px;
+            object-fit: contain;
+            margin: 0 auto -12px;
+        }
+
+        #view-certificate .signature-line {
+            border-top: 1px solid #444;
+            margin-top: 2px;
+            padding-top: 7px;
+            font-size: .84rem;
+            color: #444;
+        }
+</style>
+</head>
+<body>
+
+    <header class="site-header" id="siteHeader">
+        <div class="container navbar">
+            <a class="brand" href="index.html">
+                <img id="logoImg" src="logo.png" alt="Fretboard Mastery Logo">
+                <span class="brand-name">Fretboard Mastery</span>
+            </a>
+
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a class="login" id="loginNav" href="login.html">Log In</a></li>
+                </ul>
+            </nav>
+            <button class="hamburger" id="hamburger" aria-label="Open menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <br><br>
+        <div id="view-landing" class="view active card">
+            <h1>Acoustic Foundation: Final Assessment</h1>
+            <p class="text-muted mb-2">Test your knowledge of the fretboard, basic chords, and essential theory. You need a score of 70% or higher to pass and claim your certificate.</p>
+            
+            <ul style="margin-left: 1.5rem; margin-bottom: 2rem; color: var(--text-muted);">
+                <li>10 randomly selected multiple-choice questions.</li>
+                <li>10-minute time limit.</li>
+                <li>Passing students can generate an official PDF certificate.</li>
+            </ul>
+
+            <button class="btn btn-primary" onclick="app.startTest()">Start Assessment</button>
+
+            <div id="history-section" style="display: none; margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 2rem;">
+                <h3>Your Past Attempts</h3>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Score</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="view-quiz" class="view card">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            
+            <div class="quiz-header">
+                <div>Question <span id="q-current">1</span> of <span id="q-total">10</span></div>
+                <div class="timer" id="timer">10:00</div>
+            </div>
+
+            <div id="question-container">
+                <div class="question-text" id="question-text">Question text goes here?</div>
+                <div class="question-media" id="question-media"></div>
+                <div class="options-grid" id="options-grid">
+                </div>
+            </div>
+
+            <div class="quiz-footer">
+                <button class="btn btn-primary" id="btn-next" onclick="app.nextQuestion()" style="display: none;">Next Question</button>
+            </div>
+        </div>
+
+        <div id="view-results" class="view card">
+            <h2 style="text-align: center;">Assessment Complete</h2>
+            
+            <div class="score-display">
+                <div class="score-circle" id="score-circle">8/10</div>
+                <h3 id="result-message">Congratulations, you passed!</h3>
+                <p class="text-muted" id="result-submessage">You have mastered the beginner concepts.</p>
+            </div>
+
+            <div style="text-align: center; gap: 1rem; display: flex; justify-content: center; flex-wrap: wrap;">
+                <button class="btn btn-primary" id="btn-cert" onclick="app.generateCertificate()" style="display: none;">Generate Certificate</button>
+                <button class="btn" onclick="app.goHome()">Return Home / Retake</button>
+            </div>
+
+            <div class="review-list" id="review-list">
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Fretboard Mastery</h4>
+                    <p>Empowering guitarists of Bengal with quality education and a supportive community.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Learn</h4>
+                    <ul>
+                        <li><a href="index.html#courses">All Courses</a></li>
+                        <li><a href="index.html#courses">Beginner's Guide</a></li>
+                        <li><a href="index.html#courses">Theory</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Fretboard Mastery. All rights reserved.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="view-certificate">
+        <section class="certificate">
+            <div class="certificate-inner">
+                <div class="brand">
+                    <img src="logo.png" alt="Fretboard Mastery Logo">
+                    <span class="brand-name">Fretboard Mastery</span>
+                </div>
+
+                <div class="title">Certificate of Appreciation</div>
+                <div class="presented">This certificate is presented to</div>
+                <br>
+                <div class="name" id="cert-name">Name Surname</div>
+
+                <div class="achievement">For successfully completing the</div>
+                <div class="course">Acoustic Foundation Course Assessment</div>
+                <br>
+                <div class="achievement">and demonstrating a strong understanding of fundamental guitar skills, music theory, chords, rhythm, and essential musicianship.</div>
+
+                <div class="bottom-row">
+                    <div class="date-block">
+                        <div class="date" id="cert-date">September 16, 2026</div>
+                        <div class="date-label">Date</div>
+                    </div>
+
+                    <img class="seal-image" src="seal.png" alt="Certificate Seal">
+
+                    <div class="signature-block">
+                        <img class="signature-image" src="signature.png" alt="Master Trainer Signature">
+                        <div class="signature-line">Master Trainer</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+
+        const QUESTION_BANK = [
+            {
+                id: 1,
+                text: "What is the name of the lowest sounding open string (the thickest string) on a guitar in standard tuning?",
+                media: null,
+                options: ["E", "A", "G", "D"],
+                correct: "E",
+                explanation: "Standard tuning from thickest (6th) to thinnest (1st) is E-A-D-G-B-E."
+            },
+            {
+                id: 2,
+                text: "Which notes are in a D Major chord/triad?",
+                media: `<svg viewBox="0 0 120 120" width="120" stroke="#000" stroke-width="2">
+                          <text x="10" y="20" font-size="12" stroke="none" fill="#000">X X 0 2 3 2</text>
+                          <line x1="10" y1="30" x2="110" y2="30" stroke-width="4"/> <!-- Nut -->
+                          <line x1="10" y1="50" x2="110" y2="50" /><line x1="10" y1="70" x2="110" y2="70" /><line x1="10" y1="90" x2="110" y2="90" /><line x1="10" y1="110" x2="110" y2="110" />
+                          <line x1="10" y1="30" x2="10" y2="110" /><line x1="30" y1="30" x2="30" y2="110" /><line x1="50" y1="30" x2="50" y2="110" /><line x1="70" y1="30" x2="70" y2="110" /><line x1="90" y1="30" x2="90" y2="110" /><line x1="110" y1="30" x2="110" y2="110" />
+                          <!-- Dots -->
+                          <circle cx="70" cy="60" r="5" fill="#000"/><circle cx="90" cy="80" r="5" fill="#000"/><circle cx="110" cy="60" r="5" fill="#000"/>
+                        </svg>`,
+                options: [
+                    "D – F♯ – B", 
+                    "D – G – A", 
+                    "D – E – A", 
+                    "D – F♯ – A"
+                ],
+                correct: "D – F♯ – A",
+                explanation: "A D Major chord is made up of D, F♯, and A. D is the root note, F♯ is the major 3rd, and A is the perfect 5th."
+            },
+            {
+                id: 3,
+                text: "If you press down on the 3rd fret of the low E string, what note are you playing?",
+                media: null,
+                options: ["G", "F", "A", "C"],
+                correct: "G",
+                explanation: "The open string is E. 1st fret is F, 2nd fret is F#, and 3rd fret is G."
+            },
+            {
+                id: 4,
+                text: "What does 'tablature' (or TAB) primarily tell a guitarist?",
+                media: null,
+                options: [
+                    "Which fret and string to play", 
+                    "The exact rhythmic duration of the note", 
+                    "Which fingers to use on the picking hand", 
+                    "The volume the note should be played at"
+                ],
+                correct: "Which fret and string to play",
+                explanation: "Tablature visually represents the 6 strings of the guitar, with numbers indicating which frets to press. It usually does not indicate rhythm."
+            },
+            {
+                id: 5,
+                text: "Identify the note highlighted in red on the A string (5th string).",
+                media: `<svg viewBox="0 0 300 80" width="300" stroke="#000">
+                          <rect x="0" y="0" width="300" height="80" fill="#f4e4c1" />
+                          <!-- Strings -->
+                          <line x1="0" y1="10" x2="300" y2="10" stroke-width="1"/><line x1="0" y1="22" x2="300" y2="22" stroke-width="1.5"/><line x1="0" y1="34" x2="300" y2="34" stroke-width="2"/><line x1="0" y1="46" x2="300" y2="46" stroke-width="2.5"/><line x1="0" y1="58" x2="300" y2="58" stroke-width="3"/><line x1="0" y1="70" x2="300" y2="70" stroke-width="3.5"/>
+                          <!-- Frets -->
+                          <line x1="10" y1="0" x2="10" y2="80" stroke-width="4"/> <!-- Nut -->
+                          <line x1="60" y1="0" x2="60" y2="80" stroke-width="2"/><line x1="120" y1="0" x2="120" y2="80" stroke-width="2"/><line x1="180" y1="0" x2="180" y2="80" stroke-width="2"/><line x1="240" y1="0" x2="240" y2="80" stroke-width="2"/>
+                          <!-- Note Marker on A string (2nd from bottom/70), 3rd fret (between 120 and 180) -->
+                          <circle cx="150" cy="58" r="8" fill="#e74c3c" stroke="none" />
+                        </svg>`,
+                options: ["C", "B", "D", "E"],
+                correct: "C",
+                explanation: "The A string is the 5th string. 1st fret is A#, 2nd is B, and the 3rd fret is C."
+            },
+            {
+                id: 6,
+                text: "How many beats does a quarter note get?",
+                media: null,
+                options: ["1", "2", "4", "8"],
+                correct: "1",
+                explanation: "A whole note gets 4 beats, a half note gets 2 beats, and a quarter note gets 1 beat."
+            },
+            {
+                id: 7,
+                text: "What is the purpose of the metal bars placed across the neck of the guitar?",
+                media: null,
+                options: [
+                    "They shorten the vibrating length of the string to create specific pitches (Frets)", 
+                    "They reinforce the neck so it doesn't bend", 
+                    "They transfer the vibration to the body of the guitar (Pickups)", 
+                    "They hold the strings in place"
+                ],
+                correct: "They shorten the vibrating length of the string to create specific pitches (Frets)",
+                explanation: "These are called frets. Pressing a string against them changes the pitch."
+            },
+            {
+                id: 8,
+                text: "When holding a pick (plectrum), what is the most common and widely taught grip?",
+                media: null,
+                options: [
+                    "Between the pad of the thumb and the side of the index finger", 
+                    "Between the tips of the thumb and middle finger", 
+                    "Gripped inside a closed fist", 
+                    "Between the index and ring fingers"
+                ],
+                correct: "Between the pad of the thumb and the side of the index finger",
+                explanation: "This grip provides maximum control and stability for both strumming and picking."
+            },
+            {
+                id: 9,
+                text: "How many strings does a standard electric or acoustic guitar have?",
+                media: null,
+                options: ["6", "4", "7", "8"],
+                correct: "6",
+                explanation: "A standard guitar has 6 strings. Basses usually have 4, though extended range instruments exist."
+            },
+            {
+                id: 10,
+                text: "What is the term for playing strings one at a time, rather than strumming them all together?",
+                media: null,
+                options: ["Arpeggio / Picking", "Muting", "Bending", "Sliding"],
+                correct: "Arpeggio / Picking",
+                explanation: "Playing notes sequentially rather than simultaneously is called picking or playing an arpeggio."
+            },
+            {
+                id: 11,
+                text: "If you want to raise the pitch of all open strings without changing fingerings, what tool do you use?",
+                media: null,
+                options: ["A Capo", "A Slide", "A Tremolo Bar", "A Tuner"],
+                correct: "A Capo",
+                explanation: "A capo clamps down across the fretboard, effectively moving the 'nut' up and raising the pitch."
+            },
+            {
+                id: 12,
+                text: "In standard tuning, what is the musical interval between most adjacent strings? (e.g., Low E to A, A to D)",
+                media: null,
+                options: ["A Perfect 4th", "A Major 3rd", "A Perfect 5th", "An Octave"],
+                correct: "A Perfect 4th",
+                explanation: "Standard tuning is mostly in fourths (E to A, A to D, D to G, B to E), except for G to B which is a major 3rd."
+            },
+            {
+                id: 13,
+                text: "What is an augmented 4th also called?",
+                media: null,
+                options: ["Perfect 4th", "Minor 5th", "Diminished 5th", "Tritone"],
+                correct: "Tritone",
+                explanation: "An augmented 4th is also called a tritone, which is a musical interval that spans three whole steps."
+            },
+            {
+                id: 14,
+                text: "Identify the chord: B, D, G.",
+                media: null,
+                options: ["B Minor", "B Major", "D Major", "G Major"],
+                correct: "G Major",
+                explanation: "The notes B, D, and G form a G major chord in first inversion (G is the root, B is the major 3rd, D is the perfect 5th)."
+            },
+            {
+                id: 15,
+                text: "What is the difference between F♯ and G♭?",
+                media: null,
+                options: ["They are two different notes with different pitches", "F♯ is higher in pitch than G♭", "They have the same pitch but different note names", "G♭ is higher in pitch than F♯"],
+                correct: "They have the same pitch but different note names",
+                explanation: "F♯ and G♭ are enharmonically equivalent, meaning they represent the same pitch but are named differently."
+            },
+            {
+                id: 16,
+                text: "How many semitones are in a perfect 5th?",
+                media: null,
+                options: ["6", "4", "5", "7"],
+                correct: "7",
+                explanation: "A perfect 5th spans 7 semitones."
+            },
+            {
+                id: 17,
+                text: "How many quaver (8th note) beats are there in one bar of 3/8 time?",
+                media: `<svg viewBox="0 0 300 180" width="300">
+                          <rect x="0" y="0" width="300" height="180" fill="#F8F9FA" /><!-- Staff -->
+                          <line x1="45" y1="45" x2="255" y2="45" stroke="#000" stroke-width="2"/>
+                          <line x1="45" y1="65" x2="255" y2="65" stroke="#000" stroke-width="2"/>
+                          <line x1="45" y1="85" x2="255" y2="85" stroke="#000" stroke-width="2"/>
+                          <line x1="45" y1="105" x2="255" y2="105" stroke="#000" stroke-width="2"/>
+                          <text x="145" y="75" text-anchor="middle"
+                          font-family="serif" font-size="42" font-weight="bold" fill="#000">3</text>
+                          <text x="145" y="103" text-anchor="middle"
+                          font-family="serif" font-size="42" font-weight="bold" fill="#000">8</text>
+                          </svg>`,
+                options: ["2", "3", "6", "8"],
+                correct: "3",
+                explanation: "The bottom number 8 means the beat is a quaver (8th note), and the top number 3 tells us there are 3 quaver beats in each bar."                
+            },
+            {
+                id: 18,
+                text: "What chord is represented by the notes on the staff?",
+                media: `<svg viewBox="0 0 500 190" width="500">
+                  <rect x="0" y="0" width="500" height="190" fill="#ffffff"/>
+                  <!-- Treble Clef -->
+                   <text x="110" y="125" font-family="serif" font-size="115" fill="#000">𝄞</text>
+                  <!-- Staff -->
+                  <line x1="110" y1="55" x2="450" y2="55" stroke="#000" stroke-width="2"/>
+                  <line x1="110" y1="75" x2="450" y2="75" stroke="#000" stroke-width="2"/>
+                  <line x1="110" y1="95" x2="450" y2="95" stroke="#000" stroke-width="2"/>
+                  <line x1="110" y1="115" x2="450" y2="115" stroke="#000" stroke-width="2"/>
+                  <line x1="110" y1="135" x2="450" y2="135" stroke="#000" stroke-width="2"/>
+                  <!-- C Major: C, E, G -->
+                  <!-- C - first ledger line below staff -->
+                  <line x1="270" y1="155" x2="310" y2="155" stroke="#000" stroke-width="2"/>
+                  <ellipse cx="290" cy="155" rx="10" ry="7" fill="#000"/>
+                  <!-- E - first space -->
+                  <ellipse cx="290" cy="135" rx="10" ry="7" fill="#000"/>
+                  <!-- G - second line -->
+                  <ellipse cx="290" cy="115" rx="10" ry="7" fill="#000"/>
+                  <!-- Stem -->
+                  <line x1="300" y1="119" x2="300" y2="80" stroke="#000" stroke-width="2"/>
+                </svg>`,
+                options: ["C Major", "A Minor", "G Major", "D Minor"],
+                correct: "C Major",
+                explanation: "The notes shown are C, E, and G. These three notes form a C Major chord, with C as the root, E as the major 3rd, and G as the perfect 5th."
+            },
+            {
+                id: 19,
+                text: "What is the name of this note?",
+                media: `<svg viewBox="0 0 500 190" width="500">
+                          <rect x="0" y="0" width="500" height="190" fill="#ffffff"/>
+                          <!-- Treble Clef -->
+                          <text x="129" y="125" font-family="serif" font-size="115" fill="#000">𝄞</text>
+                          <!-- Staff -->
+                          <line x1="125" y1="55" x2="440" y2="55" stroke="#000" stroke-width="2"/>
+                          <line x1="125" y1="75" x2="440" y2="75" stroke="#000" stroke-width="2"/>
+                          <line x1="125" y1="95" x2="440" y2="95" stroke="#000" stroke-width="2"/>
+                          <line x1="125" y1="115" x2="440" y2="115" stroke="#000" stroke-width="2"/>
+                          <line x1="125" y1="135" x2="440" y2="135" stroke="#000" stroke-width="2"/>
+                          <!-- Bar lines -->
+                          <line x1="440" y1="55" x2="440" y2="135" stroke="#000" stroke-width="2"/>
+                          <!-- Whole note G -->
+                          <ellipse cx="290" cy="45" rx="10" ry="7" fill="#000"/>
+                          <!-- Stem -->
+                          <line x1="300" y1="42" x2="300" y2="80" stroke="#000" stroke-width="2"/>
+                        </svg>`,
+                options: ["F", "B", "G", "A"],
+                correct: "G",
+                explanation: "The note is G. In the treble clef, G can appear on the second line or above the fifth line of the staff as well."
+            },
+            {
+                id: 20,
+                text: "What does staccato indicate?",
+                media: null,
+                options: [
+                    "Notes should be played smoothly and connected",
+                    "Notes should be played short and detached",
+                    "Notes should gradually become louder",
+                    "Notes should be held for their full duration"
+                ],
+                correct: "Notes should be played short and detached",
+                explanation: "Staccato means notes should be played short and separated, rather than smoothly connected."
+            },            
+            {
+                id: 21,
+                text: "What does legato indicate?",
+                media: null,
+                options: [
+                    "Notes should be played short and detached",
+                    "Notes should be played with increasing volume",
+                    "Notes should be played smoothly and connected",
+                    "Notes should be played with a strong accent"
+                ],
+                correct: "Notes should be played smoothly and connected",
+                explanation: "Legato means notes should be played smoothly and connected, with little or no noticeable gap between them."
+            },                  
+        ];
+
+        const app = {
+            state: {
+                questions: [],
+                currentIndex: 0,
+                score: 0,
+                userAnswers: [],
+                timeRemaining: 600,
+                timerInterval: null,
+                passingGrade: 0.7,
+                totalQuestions: 10
+            },
+
+            showView: (viewId) => {
+                document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+                document.getElementById(viewId).classList.add('active');
+            },
+
+            shuffle: (array) => {
+                let currentIndex = array.length, randomIndex;
+                while (currentIndex != 0) {
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex--;
+                    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+                }
+                return array;
+            },
+
+            init: () => {
+                app.loadHistory();
+            },
+
+            startTest: () => {
+                app.state.score = 0;
+                app.state.currentIndex = 0;
+                app.state.userAnswers = [];
+                app.state.timeRemaining = 600;
+            
+                const shuffledBank = app.shuffle([...QUESTION_BANK]);
+                app.state.questions = shuffledBank.slice(0, app.state.totalQuestions);
+
+                app.showView('view-quiz');
+                app.startTimer();
+                app.renderQuestion();
+            },
+
+            startTimer: () => {
+                clearInterval(app.state.timerInterval);
+                app.updateTimerDisplay();
+                app.state.timerInterval = setInterval(() => {
+                    app.state.timeRemaining--;
+                    app.updateTimerDisplay();
+                    if (app.state.timeRemaining <= 0) {
+                        clearInterval(app.state.timerInterval);
+                        app.endTest();
+                    }
+                }, 1000);
+            },
+
+            updateTimerDisplay: () => {
+                const minutes = Math.floor(app.state.timeRemaining / 60);
+                const seconds = app.state.timeRemaining % 60;
+                document.getElementById('timer').innerText = 
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            },
+
+            renderQuestion: () => {
+                const q = app.state.questions[app.state.currentIndex];
+                
+                document.getElementById('q-current').innerText = app.state.currentIndex + 1;
+                document.getElementById('q-total').innerText = app.state.totalQuestions;
+                
+                const progressPct = (app.state.currentIndex / app.state.totalQuestions) * 100;
+                document.getElementById('progress-fill').style.width = `${progressPct}%`;
+
+                document.getElementById('question-text').innerText = q.text;
+                
+                const mediaContainer = document.getElementById('question-media');
+                if (q.media) {
+                    mediaContainer.innerHTML = q.media;
+                    mediaContainer.style.display = 'block';
+                } else {
+                    mediaContainer.innerHTML = '';
+                    mediaContainer.style.display = 'none';
+                }
+
+                const optionsGrid = document.getElementById('options-grid');
+                optionsGrid.innerHTML = '';
+                const shuffledOptions = app.shuffle([...q.options]);
+
+                shuffledOptions.forEach(opt => {
+                    const btn = document.createElement('div');
+                    btn.className = 'option-card';
+                    btn.innerText = opt;
+                    btn.onclick = () => app.selectOption(btn, opt);
+                    optionsGrid.appendChild(btn);
+                });
+
+                document.getElementById('btn-next').style.display = 'none';
+            },
+
+            selectOption: (element, selectedText) => {
+                const cards = document.querySelectorAll('.option-card');
+                cards.forEach(c => {
+                    c.classList.remove('selected');
+                    c.classList.add('disabled');
+                    c.onclick = null;
+                });
+
+                element.classList.add('selected');
+                element.classList.remove('disabled');
+
+                const q = app.state.questions[app.state.currentIndex];
+                app.state.userAnswers[app.state.currentIndex] = {
+                    question: q.text,
+                    selected: selectedText,
+                    correct: q.correct,
+                    explanation: q.explanation,
+                    isCorrect: selectedText === q.correct
+                };
+
+                const btnNext = document.getElementById('btn-next');
+                btnNext.style.display = 'inline-block';
+                if (app.state.currentIndex === app.state.totalQuestions - 1) {
+                    btnNext.innerText = "Finish Assessment";
+                } else {
+                    btnNext.innerText = "Next Question";
+                }
+            },
+
+            nextQuestion: () => {
+                if (app.state.currentIndex < app.state.totalQuestions - 1) {
+                    app.state.currentIndex++;
+                    app.renderQuestion();
+                } else {
+                    app.endTest();
+                }
+            },
+
+            endTest: () => {
+                clearInterval(app.state.timerInterval);
+                
+                app.state.score = app.state.userAnswers.filter(a => a.isCorrect).length;
+                const scorePct = app.state.score / app.state.totalQuestions;
+                const passed = scorePct >= app.state.passingGrade;
+
+                app.saveToHistory(app.state.score, passed);
+
+                app.showView('view-results');
+                
+                const circle = document.getElementById('score-circle');
+                circle.innerText = `${app.state.score}/${app.state.totalQuestions}`;
+                circle.className = `score-circle ${passed ? 'pass' : 'fail'}`;
+
+                document.getElementById('result-message').innerText = passed 
+                    ? "Congratulations, you passed!" 
+                    : "Keep Practicing!";
+                
+                document.getElementById('result-submessage').innerText = passed
+                    ? `You achieved ${Math.round(scorePct * 100)}%. You have mastered the beginner concepts.`
+                    : `You achieved ${Math.round(scorePct * 100)}%. You need 70% to pass. Review your answers below and try again.`;
+
+                document.getElementById('btn-cert').style.display = passed ? 'inline-block' : 'none';
+
+                const reviewList = document.getElementById('review-list');
+                reviewList.innerHTML = '<h3>Answer Review</h3>';
+                
+                app.state.userAnswers.forEach((ans, index) => {
+                    const item = document.createElement('div');
+                    item.className = `review-item ${ans.isCorrect ? 'correct' : 'incorrect'}`;
+                    item.innerHTML = `
+                        <strong>Q${index + 1}: ${ans.question}</strong><br>
+                        <span style="color: ${ans.isCorrect ? 'var(--success)' : 'var(--danger)'};">
+                            Your Answer: ${ans.selected}
+                        </span>
+                        ${!ans.isCorrect ? `<br><span style="color: var(--success);">Correct Answer: ${ans.correct}</span>` : ''}
+                        <div class="review-explanation">${ans.explanation}</div>
+                    `;
+                    reviewList.appendChild(item);
+                });
+            },
+
+            saveToHistory: (score, passed) => {
+                let history = JSON.parse(localStorage.getItem('fm_test_history') || '[]');
+                history.unshift({
+                    date: new Date().toLocaleDateString(),
+                    score: `${score}/${app.state.totalQuestions}`,
+                    passed: passed
+                });
+                if (history.length > 5) history = history.slice(0, 5);
+                localStorage.setItem('fm_test_history', JSON.stringify(history));
+            },
+
+            loadHistory: () => {
+                const history = JSON.parse(localStorage.getItem('fm_test_history') || '[]');
+                if (history.length > 0) {
+                    document.getElementById('history-section').style.display = 'block';
+                    const tbody = document.getElementById('history-body');
+                    tbody.innerHTML = '';
+                    history.forEach(item => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${item.date}</td>
+                            <td>${item.score}</td>
+                            <td><span class="badge ${item.passed ? 'pass' : 'fail'}">${item.passed ? 'PASSED' : 'FAILED'}</span></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+            },
+
+            goHome: () => {
+                app.loadHistory();
+                app.showView('view-landing');
+            },
+
+            generateCertificate: async () => {
+                const name = prompt("Enter your name as it should appear on the certificate:", "Example - Ratan Das");
+                if (!name) return;
+
+                const button = document.getElementById('btn-cert');
+                const certificate = document.querySelector('#view-certificate .certificate');
+                const originalText = button.textContent;
+
+                button.disabled = true;
+                button.textContent = 'Preparing Certificate...';
+
+                try {
+                    document.getElementById('cert-name').innerText = name;
+                    document.getElementById('cert-date').innerText = new Date().toLocaleDateString();
+                    await document.fonts.ready;
+
+                    const canvas = await html2canvas(certificate, {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: '#ffffff',
+                        logging: false
+                    });
+
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({
+                        orientation: 'landscape',
+                        unit: 'mm',
+                        format: 'a4',
+                        compress: true
+                    });
+
+                    const pageWidth = 297;
+                    const pageHeight = 210;
+                    const imageRatio = canvas.width / canvas.height;
+                    const maxWidth = 285;
+                    const maxHeight = 202;
+                    const margin = 8;
+                    let imageWidth = pageWidth - (margin * 2);
+                    let imageHeight = imageWidth / imageRatio;
+
+                    if (imageHeight > pageHeight - (margin * 2)) {
+                        imageHeight = pageHeight - (margin * 2);
+                        imageWidth = imageHeight * imageRatio;
+                    }
+
+                    const x = (pageWidth - imageWidth) / 2;
+                    const y = (pageHeight - imageHeight) / 2;
+
+                    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', x, y, imageWidth, imageHeight);
+                    pdf.save('Fretboard-Mastery-Certificate-Acoustic-Foundation.pdf');
+                } finally {
+                    button.disabled = false;
+                    button.textContent = originalText;
+                }
+            }
+        };
+
+        window.onload = app.init;
+
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('navLinks');
+            const header = document.getElementById('siteHeader');
+
+            if (hamburger && navLinks) {
+                const closeMobileMenu = () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                };
+
+                hamburger.setAttribute('aria-expanded', 'false');
+                hamburger.addEventListener('click', () => {
+                    const isOpen = navLinks.classList.toggle('active');
+                    hamburger.classList.toggle('active', isOpen);
+                    hamburger.setAttribute('aria-expanded', String(isOpen));
+                });
+
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', closeMobileMenu);
+                });
+            }
+
+            let lastScrollY = window.scrollY;
+            let ticking = false;
+
+            if (header) {
+                const handleScroll = () => {
+                    const currentScrollY = window.scrollY;
+                    const menuIsOpen = navLinks && navLinks.classList.contains('active');
+
+                    if (!menuIsOpen) {
+                        if (currentScrollY > lastScrollY && currentScrollY > 80) {
+                            header.classList.add('hide');
+                        } else {
+                            header.classList.remove('hide');
+                        }
+                    }
+
+                    lastScrollY = currentScrollY;
+                    ticking = false;
+                };
+
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        window.requestAnimationFrame(handleScroll);
+                        ticking = true;
+                    }
+                }, { passive: true });
+
+                handleScroll();
+            }
+
+            const logo = document.getElementById('logoImg');
+            const theme = window.matchMedia('(prefers-color-scheme: dark)');
+            const updateLogo = () => {
+                if (logo) logo.src = theme.matches ? 'logoW.png' : 'logo.png';
+            };
+            updateLogo();
+            theme.addEventListener('change', updateLogo);
+        });
+    </script>
+</body>
+</html>
