@@ -783,7 +783,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (currentLesson === lessons.length - 1) {
             nextBtn.disabled = false;
-            nextBtnText.textContent = 'অন্যান্য Course';
+            nextBtnText.textContent = 'পরীক্ষা দিন';
             nextBtnIcon.className = 'fas fa-arrow-right';
         } else {
             nextBtn.disabled = false;
@@ -832,7 +832,7 @@ document.addEventListener('DOMContentLoaded', function () {
             updateLessonList();
             updateProgress();
 
-            window.location.href = 'index.html#courses';
+            window.location.href = 'exam1-bn.html';
             return;
         }
 
