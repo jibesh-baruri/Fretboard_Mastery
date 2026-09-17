@@ -586,12 +586,11 @@
             color: #333;
         }
 
-        #view-certificate .title {
-            font-family: 'Old English Text MT', serif;
-            font-size: clamp(4.1rem, 6.7vw, 6.35rem);
-            line-height: 1.05;
+        .certificate-title-image {
+            width: min(620px, 75%);
+            height: auto;
+            display: block;
             margin: 8px 0 12px;
-            color:  #D49A05;
         }
 
         #view-certificate .presented {
@@ -697,7 +696,6 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
-                    <li><a class="login" id="loginNav" href="login.html">Log In</a></li>
                 </ul>
             </nav>
             <button class="hamburger" id="hamburger" aria-label="Open menu">
@@ -820,7 +818,7 @@
                     <span class="brand-name">Fretboard Mastery</span>
                 </div>
 
-                <div class="title">Certificate of Appreciation</div>
+                <img class="certificate-title-image" src="cert.png" alt="Certificate of Appreciation">
                 <div class="presented">This certificate is presented to</div>
                 <br>
                 <div class="name" id="cert-name">Name Surname</div>
